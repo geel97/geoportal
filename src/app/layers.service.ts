@@ -7,6 +7,7 @@ import { Style, Circle, Fill, Stroke } from 'ol/style';
 import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import TileWMS from 'ol/source/TileWMS';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,25 @@ export class LayersService {
 
   constructor() {
 
-    this.layers.push(
-      new TileLayer({
-        source: new OSM()
-      })
-    );
+    let osm = new TileLayer({
+      source: new OSM()
+    });
+    osm.set('name', 'OpenStreetMap');
+    this.layers.push(osm);
+
+    let radar = new TileLayer({
+      //extent: [-13884991, 2870341, -7455066, 6338219],
+      source: new TileWMS({
+        url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
+        params: {'LAYERS': 'sea_water_velocity', 'TILED': true, 'STYLES': 'fancyvec/rainbow'},
+        serverType: 'geoserver',
+        // Countries have transparency, so do not fade tiles:
+        //transition: 0,
+      }),
+    });
+    radar.set('name', 'radar');
+    this.layers.push(radar);
+
     this.layers.push(
       new VectorLayer({
         source: new VectorSource({
@@ -56,7 +71,7 @@ export class LayersService {
         })
       })
     );
-
+    
 
   }
 
