@@ -26,17 +26,17 @@ import Layer from 'ol/layer/Layer';
   styleUrls: ['./ol-map.component.css']
 })
 export class OlMapComponent implements OnInit {
-  Map!: Map;
-  Layers: Layer[];
+  map!: Map;
+  layers: Layer[];
 
   constructor(service: LayersService) { 
-    this.Layers = service.Layers;
+    this.layers = service.layers;
   }
 
   ngOnInit():void{
-    this.Map = new Map({
+    this.map = new Map({
       target: 'map',
-      layers: this.Layers/*[
+      layers: this.layers/*[
         new TileLayer({
           source: new OSM()
         }),
@@ -74,17 +74,17 @@ export class OlMapComponent implements OnInit {
         })
       ]*/,
       view: new View({
-        center: [813079.7791264898, 5929220.284081122],
-        zoom: 7
+        center: [1513911.782216, 5725592.040729],
+        zoom: 11
       }),
-      controls: defaultControls().extend([
+      /*controls: defaultControls().extend([
         new ZoomToExtent({
           extent: [
             813079.7791264898, 5929220.284081122,
             848966.9639063801, 5936863.986909639
           ]
         })
-      ])
+      ])*/
     });
   }
 

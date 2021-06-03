@@ -32,13 +32,12 @@ export class LayersService {
         serverType: 'geoserver',
         // Countries have transparency, so do not fade tiles:
         //transition: 0,
-      }),
+      })
     });
     radar.set('name', 'radar');
     this.layers.push(radar);
 
-    this.layers.push(
-      new VectorLayer({
+    let buoy = new VectorLayer({
         source: new VectorSource({
           url:
             function (extent) {
@@ -69,14 +68,10 @@ export class LayersService {
             radius: 5
           })
         })
-      })
-    );
-    
+      });
+    buoy.set('name', 'buoy');
+    this.layers.push(buoy);
 
-  }
-
-  get Layers(){
-    return this.layers;
   }
 
 }

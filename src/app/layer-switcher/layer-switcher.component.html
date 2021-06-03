@@ -1,0 +1,3 @@
+<div *ngFor="let layer of layers; let i = index">
+    <input type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)"/> {{layer.get('name')}}
+<div>
