@@ -8,6 +8,8 @@ import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
+import { FeatureLike } from 'ol/Feature';
+import { StyleFunction} from 'ol/style/Style';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +58,30 @@ export class LayersService {
           strategy: bboxStrategy,
           format: new GeoJSON()
         }),
-        style: new Style({
+        style: this.styleFunction
+      });
+    buoy.set('name', 'buoy');
+    this.layers.push(buoy);
+  }
+  
+  styleFunction: StyleFunction = (feature: FeatureLike, resolution: number) => {
+    switch(feature.get('survey_types')){
+      case 'MSFD_monitoring':
+        return new Style({
+          image: new Circle({
+            fill: new Fill({
+              color: 'rgba(0,0,255,0.4)'
+            }),
+            stroke: new Stroke({
+              color: '#0099CC',
+              width: 1.25
+            }),
+            radius: 5
+          })
+        })
+        break;
+      default:
+        return new Style({
           image: new Circle({
             fill: new Fill({
               color: 'rgba(255,255,255,0.4)'
@@ -68,10 +93,6 @@ export class LayersService {
             radius: 5
           })
         })
-      });
-    buoy.set('name', 'buoy');
-    this.layers.push(buoy);
-
-  }
-
+    }
+  };
 }
