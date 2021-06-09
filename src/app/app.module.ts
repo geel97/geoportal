@@ -7,17 +7,21 @@ import { OlMapComponent } from './ol-map/ol-map.component';
 import { LayerSwitcherComponent } from './layer-switcher/layer-switcher.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { DetailDialogComponent } from './detail-dialog/detail-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     OlMapComponent,
-    LayerSwitcherComponent
+    LayerSwitcherComponent,
+    DetailDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

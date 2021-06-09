@@ -1,5 +1,5 @@
 import { LayersService } from './../layers.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { View, Feature, Map } from 'ol';
 import {Coordinate} from 'ol/coordinate';
 import { ScaleLine, defaults as DefaultControls, ZoomToExtent} from 'ol/control';
@@ -19,6 +19,9 @@ import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import Vector from 'ol/source/Vector';
 import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import Layer from 'ol/layer/Layer';
+import Select from 'ol/interaction/Select';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 
 @Component({
   selector: 'app-ol-map',
@@ -28,9 +31,11 @@ import Layer from 'ol/layer/Layer';
 export class OlMapComponent implements OnInit {
   map!: Map;
   layers: Layer[];
+  select: Select;
 
-  constructor(service: LayersService) { 
+  constructor(service: LayersService, public matDialog: MatDialog) { 
     this.layers = service.layers;
+    this.select = new Select();
   }
 
   ngOnInit():void{
@@ -86,6 +91,16 @@ export class OlMapComponent implements OnInit {
         })
       ])*/
     });
+    this.map.addInteraction(this.select);
+    this.select.on('select',  (e) => {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.data = this.select.getFeatures();
+      const modalDialog = this.matDialog.open(DetailDialogComponent, dialogConfig);
+      modalDialog.afterClosed().subscribe(() => {
+        this.select.getFeatures().clear();
+      });
+  })
   }
 
 }
