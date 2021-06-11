@@ -36,9 +36,10 @@ export class LayersService {
         //transition: 0,
       })
     });
+    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl());
     radar.set('name', 'radar');
     this.layers.push(radar);
-
+    
     let buoy = new VectorLayer({
         source: new VectorSource({
           url:
