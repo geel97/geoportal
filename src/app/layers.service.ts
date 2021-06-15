@@ -45,11 +45,11 @@ export class LayersService {
           url:
             function (extent) {
               return (
-                'https://nodc.inogs.it/geoserver/Litter/ows' +
+                'https://nodc.inogs.it/geoserver/Geoportal/ows' +
                 '?service=WFS' +
                 '&version=1.0.0' +
                 '&request=GetFeature' +
-                '&typeName=Litter:beaches_catalog' +
+                '&typeName=Geoportal:v_ultimo_dato_erddap' +
                 '&outputFormat=application/json&srsname=EPSG:3857&' +
                 'bbox=' +
                 extent.join(',') +

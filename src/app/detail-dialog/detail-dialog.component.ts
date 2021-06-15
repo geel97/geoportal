@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import Collection from 'ol/Collection';
+import Feature from 'ol/Feature';
+import Geometry from 'ol/geom/Geometry';
 
 @Component({
   selector: 'app-detail-dialog',
@@ -8,9 +11,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class DetailDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<DetailDialogComponent>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>, private dialogRef: MatDialogRef<DetailDialogComponent>) { }
 
   ngOnInit(): void {
+    console.log(this.data);
   }
 
   closeModal() {
