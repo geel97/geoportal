@@ -1,5 +1,7 @@
 <div *ngFor="let layer of layers; let i = index">
-    <input type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)"/> {{layer.get('name')}}
+    <ng-container *ngIf="layer.get('controls') != false">
+        <input type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)"/> {{layer.get('name')}}
+    </ng-container>
 </div>
 <div *ngFor="let layer of layers">
     <ng-container *ngIf="layer.get('legendUrl') != undefined">

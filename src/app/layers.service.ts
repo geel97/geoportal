@@ -24,6 +24,7 @@ export class LayersService {
       source: new OSM()
     });
     osm.set('name', 'OpenStreetMap');
+    osm.set('controls', false);
     this.layers.push(osm);
 
     let radar = new TileLayer({
