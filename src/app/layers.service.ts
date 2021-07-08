@@ -3,7 +3,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { Style, Circle, Fill, Stroke } from 'ol/style';
+import { Style, Icon, Stroke } from 'ol/style';
 import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
@@ -67,32 +67,18 @@ export class LayersService {
   }
   
   styleFunction: StyleFunction = (feature: FeatureLike, resolution: number) => {
-    switch(feature.get('survey_types')){
-      case 'MSFD_monitoring':
+    switch(feature.get('tipo')){
+      case 'buoy':
         return new Style({
-          image: new Circle({
-            fill: new Fill({
-              color: 'rgba(0,0,255,0.4)'
-            }),
-            stroke: new Stroke({
-              color: '#0099CC',
-              width: 1.25
-            }),
-            radius: 5
+          image: new Icon({
+            src: 'assets/sea_level.png',
           })
         })
         break;
       default:
         return new Style({
-          image: new Circle({
-            fill: new Fill({
-              color: 'rgba(255,255,255,0.4)'
-            }),
-            stroke: new Stroke({
-              color: '#3399CC',
-              width: 1.25
-            }),
-            radius: 5
+          image: new Icon({
+            src: 'assets/buoy.png',
           })
         })
     }

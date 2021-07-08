@@ -15,7 +15,6 @@ import OSM, {ATTRIBUTION} from 'ol/source/OSM';
 import { defaults as defaultControls } from 'ol/control';
 import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
-import {Circle, Fill, Stroke, Style, Text} from 'ol/style';
 import Vector from 'ol/source/Vector';
 import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import Layer from 'ol/layer/Layer';
@@ -35,7 +34,9 @@ export class OlMapComponent implements OnInit {
 
   constructor(service: LayersService, public matDialog: MatDialog) { 
     this.layers = service.layers;
-    this.select = new Select();
+    this.select = new Select({
+      style: service.styleFunction,
+    });
   }
 
   ngOnInit():void{
