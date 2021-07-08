@@ -1,5 +1,5 @@
 <div *ngFor="let layer of layers; let i = index">
     <ng-container *ngIf="layer.get('controls') != false">
-        <input type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)"/> {{layer.get('name')}}
+        <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">{{ layer.get('name') }}</mat-slide-toggle>
     </ng-container>
 </div>

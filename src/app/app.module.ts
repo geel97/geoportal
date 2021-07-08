@@ -11,6 +11,7 @@ import { DetailDialogComponent } from './detail-dialog/detail-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 
 @NgModule({
@@ -28,6 +29,7 @@ import { AttributionsDialogComponent } from './attributions-dialog/attributions-
     MatDialogModule,
     MatButtonModule,
     MatCardModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
