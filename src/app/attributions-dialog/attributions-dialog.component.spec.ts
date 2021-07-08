@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AttributionsComponent } from './attributions-dialog.component';
+import { AttributionsDialogComponent } from './attributions-dialog.component';
 
 describe('AttributionsComponent', () => {
-  let component: AttributionsComponent;
-  let fixture: ComponentFixture<AttributionsComponent>;
+  let component: AttributionsDialogComponent;
+  let fixture: ComponentFixture<AttributionsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AttributionsComponent ]
+      declarations: [ AttributionsDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AttributionsComponent);
+    fixture = TestBed.createComponent(AttributionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

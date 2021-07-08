@@ -3,7 +3,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import { Style, Icon, Stroke } from 'ol/style';
+import { Style, Icon } from 'ol/style';
 import {bbox as bboxStrategy} from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
@@ -33,12 +33,10 @@ export class LayersService {
         url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
         params: {'LAYERS': 'sea_water_velocity', 'TILED': true, 'STYLES': 'fancyvec/rainbow'},
         serverType: 'geoserver',
-        // Countries have transparency, so do not fade tiles:
-        //transition: 0,
       })
     });
     radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true }));
-    radar.set('name', 'radar');
+    radar.set('name', 'Radar');
     this.layers.push(radar);
     
     let buoy = new VectorLayer({
@@ -62,7 +60,7 @@ export class LayersService {
         }),
         style: this.styleFunction
       });
-    buoy.set('name', 'buoy');
+    buoy.set('name', 'Buoy');
     this.layers.push(buoy);
   }
   
@@ -83,4 +81,5 @@ export class LayersService {
         })
     }
   };
+  
 }

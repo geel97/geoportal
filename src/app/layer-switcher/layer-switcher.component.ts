@@ -19,4 +19,5 @@ export class LayerSwitcherComponent {
   onChange(event: MatSlideToggleChange, index: number): void {
     this.layers[index].setVisible(event.checked);
   }
+  
 }

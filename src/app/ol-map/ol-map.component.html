@@ -1,4 +1,5 @@
 <button mat-button (click)="openAttributionsDialog()">Attributions</button>
+
 <div *ngFor="let layer of layers">
     <ng-container *ngIf="layer.get('legendUrl') != undefined">
         <mat-card class="legend-card">
@@ -6,4 +7,5 @@
         </mat-card>
     </ng-container>
 </div>
+
 <div id="map" class="map"></div>
