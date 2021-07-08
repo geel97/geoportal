@@ -21,6 +21,7 @@ import Layer from 'ol/layer/Layer';
 import Select from 'ol/interaction/Select';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
+import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
 
 @Component({
   selector: 'app-ol-map',
@@ -37,6 +38,10 @@ export class OlMapComponent implements OnInit {
     this.select = new Select({
       style: service.styleFunction,
     });
+  }
+
+  openAttributionsDialog() {
+    this.matDialog.open(AttributionsDialogComponent);
   }
 
   ngOnInit():void{

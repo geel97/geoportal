@@ -3,8 +3,3 @@
         <input type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)"/> {{layer.get('name')}}
     </ng-container>
 </div>
-<div *ngFor="let layer of layers">
-    <ng-container *ngIf="layer.get('legendUrl') != undefined">
-        <img [hidden]='!layer.getVisible()' [src]="layer.get('legendUrl')" />
-    </ng-container>
-</div>

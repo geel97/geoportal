@@ -2,3 +2,7 @@
     width: 100%;
     height: 100vh;
   }
+
+.legend-card {
+  max-width: 50px;
+}

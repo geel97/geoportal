@@ -37,7 +37,7 @@ export class LayersService {
         //transition: 0,
       })
     });
-    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl());
+    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true }));
     radar.set('name', 'radar');
     this.layers.push(radar);
     
