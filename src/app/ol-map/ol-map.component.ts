@@ -37,7 +37,6 @@ export class OlMapComponent implements OnInit {
         center: [1513911.782216, 5725592.040729],
         zoom: 11
       }),
-      controls: [],
     });
 
     this.map.addInteraction(this.select);
