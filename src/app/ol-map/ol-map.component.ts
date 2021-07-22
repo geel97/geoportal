@@ -6,6 +6,7 @@ import Select from 'ol/interaction/Select';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
+import { Zoom } from 'ol/control';
 
 @Component({
   selector: 'app-ol-map',
@@ -33,6 +34,7 @@ export class OlMapComponent implements OnInit {
     this.map = new Map({
       target: 'map',
       layers: this.layers,
+      controls: [new Zoom()],
       view: new View({
         center: [1513911.782216, 5725592.040729],
         zoom: 11
