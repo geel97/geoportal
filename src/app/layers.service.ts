@@ -31,11 +31,10 @@ export class LayersService {
       //extent: [-13884991, 2870341, -7455066, 6338219],
       source: new TileWMS({
         url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
-        params: {'LAYERS': 'sea_water_velocity', 'TILED': true, 'STYLES': 'fancyvec/rainbow'},
-        serverType: 'geoserver',
+        params: {'LAYERS': 'sea_water_velocity', 'TILED': true, 'STYLES': 'prettyvec/rainbow', 'COLORSCALERANGE': '0, 0.4', 'ABOVEMAXCOLOR': 'extend', 'BELOWMINCOLOR': 'extend'},
       })
     });
-    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true }));
+    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true, 'COLORSCALERANGE': '0, 0.4' }));
     radar.set('name', 'Radar');
     this.layers.push(radar);
     
