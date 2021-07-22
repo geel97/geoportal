@@ -34,7 +34,7 @@ export class LayersService {
         params: {'LAYERS': 'sea_water_velocity', 'TILED': true, 'STYLES': 'prettyvec/rainbow', 'COLORSCALERANGE': '0, 0.4', 'ABOVEMAXCOLOR': 'extend', 'BELOWMINCOLOR': 'extend'},
       })
     });
-    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true, 'COLORSCALERANGE': '0, 0.4' }));
+    radar.set('legendUrl', (radar.getSource() as TileWMS).getLegendUrl(undefined, { 'TRANSPARENT': true, 'COLORSCALERANGE': '0, 0.4', 'bgcolor': '0xFFFFFF' }));
     radar.set('name', 'Radar');
     this.layers.push(radar);
     
