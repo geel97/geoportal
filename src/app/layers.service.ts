@@ -4,7 +4,7 @@ import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import { Style, Icon } from 'ol/style';
-import {bbox as bboxStrategy} from 'ol/loadingstrategy';
+import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
@@ -64,11 +64,12 @@ export class LayersService {
   }
   
   styleFunction: StyleFunction = (feature: FeatureLike, resolution: number) => {
-    switch(feature.get('tipo')){
+    switch(feature.get('type')){
       case 'buoy':
         return new Style({
           image: new Icon({
             src: 'assets/sea_level.png',
+            scale: 0.8,
           })
         })
         break;
@@ -76,6 +77,7 @@ export class LayersService {
         return new Style({
           image: new Icon({
             src: 'assets/buoy.png',
+            scale: 0.8,
           })
         })
     }

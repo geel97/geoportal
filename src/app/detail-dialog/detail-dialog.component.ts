@@ -13,12 +13,15 @@ export class DetailDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>, private dialogRef: MatDialogRef<DetailDialogComponent>) { }
 
-  ngOnInit(): void {
-    console.log(this.data);
-  }
+  ngOnInit(): void {  }
 
   closeModal() {
     this.dialogRef.close();
   }
+
+  featureKeysFilter(value: string, index: number, array: string[]): boolean { 
+    //Filter out anything is not a mesurment
+    return (value.startsWith('P01_'));
+ }
 
 }
