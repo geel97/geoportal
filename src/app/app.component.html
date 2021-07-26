@@ -1,12 +1,15 @@
 <mat-toolbar class="header" color="primary">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>
+    <!--<button mat-icon-button *ngIf="this.mobile" (click)="layerSwitcher.toggleVisible()">
+        <mat-icon *ngIf="!layerSwitcher.getVisible()">
             menu
         </mat-icon>
-    </button>
-    <span>Geoportal</span>
-    <span class="example-spacer"></span>
+        <mat-icon *ngIf="layerSwitcher.getVisible()">
+            close
+        </mat-icon>
+    </button>-->
+    <img class="logo" src="./assets/ogs_w.png"/>
+    <span>NODC | Geoportal</span>
 </mat-toolbar>
-<app-layer-switcher></app-layer-switcher>
+<app-layer-switcher #layerSwitcher  ></app-layer-switcher>
 <app-ol-map></app-ol-map>
 <router-outlet></router-outlet>

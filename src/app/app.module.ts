@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 
@@ -32,6 +33,7 @@ import { AttributionsDialogComponent } from './attributions-dialog/attributions-
     MatSlideToggleModule,
     MatIconModule,
     MatToolbarModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
