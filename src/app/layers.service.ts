@@ -3,6 +3,7 @@ import GeoJSON from 'ol/format/GeoJSON';
 import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
+import SourceType from 'ol/source/Source';
 import { Style, Icon } from 'ol/style';
 import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
@@ -16,7 +17,7 @@ import { StyleFunction} from 'ol/style/Style';
 })
 export class LayersService {
   
-  layers: Layer[] = [];
+  layers: Layer<SourceType>[] = [];
 
   constructor() {
 

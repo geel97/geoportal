@@ -2,6 +2,7 @@ import { LayersService } from './../layers.service';
 import { Component, OnInit } from '@angular/core';
 import { View, Feature, Map } from 'ol';
 import Layer from 'ol/layer/Layer';
+import SourceType from 'ol/source/Source';
 import Select from 'ol/interaction/Select';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
@@ -11,12 +12,12 @@ import { Zoom } from 'ol/control';
 @Component({
   selector: 'app-ol-map',
   templateUrl: './ol-map.component.html',
-  styleUrls: ['./ol-map.component.css']
+  styleUrls: ['./ol-map.component.scss']
 })
 export class OlMapComponent implements OnInit {
 
   map!: Map;
-  layers: Layer[];
+  layers: Layer<SourceType>[];
   select: Select;
 
   constructor(service: LayersService, public matDialog: MatDialog) { 
