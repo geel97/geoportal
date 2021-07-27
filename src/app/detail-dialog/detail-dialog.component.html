@@ -1,2 +1,85 @@
-<h1>{{ this.data.item(0).get('name') }}</h1>
-<p>Temperatura dell'aria: {{ this.data.item(0).get('Temperatura dell aria') }} °C</p>
+<div matDialogTitle><img src="assets/buoy.png" > {{ this.data.item(0).get('name') }}</div>
+
+<mat-dialog-content class="content">
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Air Pressure</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Pressione atmosferica') }} hPa</p>
+            <p>{{ this.data.item(0).get('Pressione atmosferica ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Humidity</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Umidità relativa') }} %</p>
+            <p>{{ this.data.item(0).get('Umidità relativa ts') }} </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Air temperature</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Temperatura dell aria') }} °C</p>
+            <p>{{ this.data.item(0).get('Temperatura dell aria ts') }} </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Oxygenation</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Ossigeno disciolto') }} ml/l</p>
+            <p>{{ this.data.item(0).get('Ossigeno disciolto ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Wind gust direction</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Direzione della raffica di vento') }} °</p>
+            <p>{{ this.data.item(0).get('Direzione della raffica di vento ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Wind gust speed</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Velocità della raffica di vento') }} m/s</p>
+            <p>{{ this.data.item(0).get('Velocità della raffica di vento ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Wind direction</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Direzione del vento') }} °</p>
+            <p>{{ this.data.item(0).get('Direzione del vento ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Wind speed</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>{{ this.data.item(0).get('Velocità del vento') }} m/s</p>
+            <p>{{ this.data.item(0).get('Velocità del vento ts') }}</p>
+        </mat-card-content>
+    </mat-card>
+
+  </mat-dialog-content>

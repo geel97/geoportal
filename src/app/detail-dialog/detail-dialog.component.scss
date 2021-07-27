@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  max-width: 1000px;
+}
+
+.content mat-card {
+  flex-basis: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+mat-card {
+  margin: 5px;
+}
