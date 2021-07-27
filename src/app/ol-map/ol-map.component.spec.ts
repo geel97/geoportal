@@ -8,9 +8,8 @@ describe('OlMapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OlMapComponent ]
-    })
-    .compileComponents();
+      declarations: [OlMapComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

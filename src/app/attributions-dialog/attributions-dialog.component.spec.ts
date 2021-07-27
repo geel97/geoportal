@@ -8,9 +8,8 @@ describe('AttributionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AttributionsDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [AttributionsDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

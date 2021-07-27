@@ -8,25 +8,26 @@ import Geometry from 'ol/geom/Geometry';
 @Component({
   selector: 'app-detail-dialog',
   templateUrl: './detail-dialog.component.html',
-  styleUrls: ['./detail-dialog.component.scss']
+  styleUrls: ['./detail-dialog.component.scss'],
 })
 export class DetailDialogComponent implements OnInit {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>,
+    private dialogRef: MatDialogRef<DetailDialogComponent>
+  ) {}
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>, private dialogRef: MatDialogRef<DetailDialogComponent>) { }
-
-  ngOnInit(): void {  }
+  ngOnInit(): void {}
 
   closeModal() {
     this.dialogRef.close();
   }
 
-  featureKeysFilter(value: string, index: number, array: string[]): boolean { 
+  featureKeysFilter(value: string, index: number, array: string[]): boolean {
     //Filter out anything is not a mesurment
-    return (value.startsWith('P01_'));
- }
-
-  daysElapsed(timestamp: string): number {
-    return (Date.now() - Date.parse(timestamp)) / (1000*60*60*24);
+    return value.startsWith('P01_');
   }
 
+  daysElapsed(timestamp: string): number {
+    return (Date.now() - Date.parse(timestamp)) / (1000 * 60 * 60 * 24);
+  }
 }

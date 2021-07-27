@@ -12,15 +12,14 @@ import { easeOut } from 'ol/easing';
 @Component({
   selector: 'app-ol-map',
   templateUrl: './ol-map.component.html',
-  styleUrls: ['./ol-map.component.scss']
+  styleUrls: ['./ol-map.component.scss'],
 })
 export class OlMapComponent implements OnInit {
-
   map!: Map;
   layers: Layer<SourceType>[];
   select: Select;
 
-  constructor(service: LayersService, public matDialog: MatDialog) { 
+  constructor(service: LayersService, public matDialog: MatDialog) {
     this.layers = service.layers;
     this.select = new Select({
       style: service.styleFunction,
@@ -31,19 +30,19 @@ export class OlMapComponent implements OnInit {
     this.matDialog.open(AttributionsDialogComponent);
   }
 
-  ngOnInit():void{
+  ngOnInit(): void {
     this.map = new Map({
       target: 'map',
       layers: this.layers,
       controls: [],
       view: new View({
         center: [1513911.782216, 5725592.040729],
-        zoom: 11
+        zoom: 11,
       }),
     });
 
     this.map.addInteraction(this.select);
-    this.select.on('select',  (e) => {
+    this.select.on('select', e => {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = false;
       dialogConfig.data = this.select.getFeatures();
@@ -51,7 +50,7 @@ export class OlMapComponent implements OnInit {
       modalDialog.afterClosed().subscribe(() => {
         this.select.getFeatures().clear();
       });
-    })
+    });
   }
 
   /**
@@ -84,5 +83,4 @@ export class OlMapComponent implements OnInit {
       }
     }
   }
-  
 }

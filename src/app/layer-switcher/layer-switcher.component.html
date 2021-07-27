@@ -1,22 +1,30 @@
 <mat-card class="layer-switcher">
-    <mat-card-subtitle>Layers</mat-card-subtitle>
+  <mat-card-subtitle>Layers</mat-card-subtitle>
+  <mat-card-content>
+    <div *ngFor="let layer of layers; let i = index">
+      <ng-container *ngIf="!layer.get('base')">
+        <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">{{
+          layer.get('name')
+        }}</mat-slide-toggle>
+      </ng-container>
+    </div>
+  </mat-card-content>
+  <ng-container *ngIf="layers.filter(isBaseLayer).length > 1">
+    <mat-card-subtitle>Base layers</mat-card-subtitle>
     <mat-card-content>
-        <div *ngFor="let layer of layers; let i = index">
-            <ng-container *ngIf="!layer.get('base')">
-                <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">{{ layer.get('name') }}</mat-slide-toggle>
-            </ng-container>
-        </div>
+      <mat-radio-group aria-label="Select a base layer" (change)="onChangeBaseLayer($event)">
+        <ng-container *ngFor="let layer of layers; let i = index">
+          <ng-container *ngIf="layer.get('base')">
+            <mat-radio-button
+              type="checkbox"
+              [checked]="layer.getVisible()"
+              value="{{ i }}"
+              (change)="onChangeBaseLayer($event)"
+              >{{ layer.get('name') }}</mat-radio-button
+            >
+          </ng-container>
+        </ng-container>
+      </mat-radio-group>
     </mat-card-content>
-    <ng-container *ngIf="layers.filter(isBaseLayer).length > 1">
-        <mat-card-subtitle>Base layers</mat-card-subtitle>
-        <mat-card-content>
-            <mat-radio-group aria-label="Select a base layer" (change)="onChangeBaseLayer($event)">
-                <ng-container *ngFor="let layer of layers; let i = index">
-                    <ng-container *ngIf="layer.get('base')">
-                        <mat-radio-button type="checkbox" [checked]="layer.getVisible()" value="{{ i }}" (change)="onChangeBaseLayer($event)">{{ layer.get('name') }}</mat-radio-button>
-                    </ng-container>
-                </ng-container>
-            </mat-radio-group>
-        </mat-card-content>
-    </ng-container>
+  </ng-container>
 </mat-card>

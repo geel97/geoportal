@@ -8,9 +8,8 @@ describe('LayerSwitcherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LayerSwitcherComponent ]
-    })
-    .compileComponents();
+      declarations: [LayerSwitcherComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

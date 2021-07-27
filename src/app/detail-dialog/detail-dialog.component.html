@@ -1,88 +1,86 @@
 <button mat-icon-button mat-dialog-close class="close-button">
-    <mat-icon>close</mat-icon>
+  <mat-icon>close</mat-icon>
 </button>
-<div matDialogTitle><img src="assets/buoy.png" > {{ this.data.item(0).get('name') }}</div>
+<div matDialogTitle><img src="assets/buoy.png" /> {{ this.data.item(0).get('name') }}</div>
 
 <mat-dialog-content class="content">
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Pressione atmosferica ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Air Pressure</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Pressione atmosferica') }} hPa</p>
+      <p>{{ this.data.item(0).get('Pressione atmosferica ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Pressione atmosferica ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Air Pressure</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Pressione atmosferica') }} hPa</p>
-            <p>{{ this.data.item(0).get('Pressione atmosferica ts') }}</p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Umidità relativa ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Humidity</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Umidità relativa') }} %</p>
+      <p>{{ this.data.item(0).get('Umidità relativa ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Umidità relativa ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Humidity</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Umidità relativa') }} %</p>
-            <p>{{ this.data.item(0).get('Umidità relativa ts') }} </p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Temperatura dell aria ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Air temperature</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Temperatura dell aria') }} °C</p>
+      <p>{{ this.data.item(0).get('Temperatura dell aria ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Temperatura dell aria ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Air temperature</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Temperatura dell aria') }} °C</p>
-            <p>{{ this.data.item(0).get('Temperatura dell aria ts') }} </p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Ossigeno disciolto ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Oxygenation</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Ossigeno disciolto') }} ml/l</p>
+      <p>{{ this.data.item(0).get('Ossigeno disciolto ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Ossigeno disciolto ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Oxygenation</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Ossigeno disciolto') }} ml/l</p>
-            <p>{{ this.data.item(0).get('Ossigeno disciolto ts') }}</p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Direzione della raffica di vento ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Wind gust direction</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Direzione della raffica di vento') }} °</p>
+      <p>{{ this.data.item(0).get('Direzione della raffica di vento ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Direzione della raffica di vento ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Wind gust direction</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Direzione della raffica di vento') }} °</p>
-            <p>{{ this.data.item(0).get('Direzione della raffica di vento ts') }}</p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Velocità della raffica di vento ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Wind gust speed</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Velocità della raffica di vento') }} m/s</p>
+      <p>{{ this.data.item(0).get('Velocità della raffica di vento ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Velocità della raffica di vento ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Wind gust speed</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Velocità della raffica di vento') }} m/s</p>
-            <p>{{ this.data.item(0).get('Velocità della raffica di vento ts') }}</p>
-        </mat-card-content>
-    </mat-card>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Direzione del vento ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Wind direction</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Direzione del vento') }} °</p>
+      <p>{{ this.data.item(0).get('Direzione del vento ts') }}</p>
+    </mat-card-content>
+  </mat-card>
 
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Direzione del vento ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Wind direction</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Direzione del vento') }} °</p>
-            <p>{{ this.data.item(0).get('Direzione del vento ts') }}</p>
-        </mat-card-content>
-    </mat-card>
-
-    <mat-card *ngIf="daysElapsed(this.data.item(0).get('Velocità del vento ts')) < 30">
-        <mat-card-header>
-            <mat-card-title>Wind speed</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ this.data.item(0).get('Velocità del vento') }} m/s</p>
-            <p>{{ this.data.item(0).get('Velocità del vento ts') }}</p>
-        </mat-card-content>
-    </mat-card>
-
-  </mat-dialog-content>
+  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Velocità del vento ts')) < 30">
+    <mat-card-header>
+      <mat-card-title>Wind speed</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ this.data.item(0).get('Velocità del vento') }} m/s</p>
+      <p>{{ this.data.item(0).get('Velocità del vento ts') }}</p>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

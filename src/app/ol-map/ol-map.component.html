@@ -1,26 +1,25 @@
 <div class="bottom-block">
-    <ng-container *ngFor="let layer of layers">
-        <ng-container *ngIf="layer.get('legendUrl') != undefined">
-            <mat-card class="legend-card" *ngIf='layer.getVisible()'>
-                
-                <img mat-card-image class="legend-image" [src]="layer.get('legendUrl')" />
-            </mat-card>
-        </ng-container>
+  <ng-container *ngFor="let layer of layers">
+    <ng-container *ngIf="layer.get('legendUrl') != undefined">
+      <mat-card class="legend-card" *ngIf="layer.getVisible()">
+        <img mat-card-image class="legend-image" [src]="layer.get('legendUrl')" />
+      </mat-card>
     </ng-container>
-    <div class="attribution-wrapper">
-        <button mat-mini-fab class="attribution" (click)="openAttributionsDialog()">
-            <mat-icon>info</mat-icon>
-        </button>
-    </div>
+  </ng-container>
+  <div class="attribution-wrapper">
+    <button mat-mini-fab class="attribution" (click)="openAttributionsDialog()">
+      <mat-icon>info</mat-icon>
+    </button>
+  </div>
 </div>
 
 <div id="map" class="map">
-    <div class="zoom-wrapper">
-        <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(1)">
-            <mat-icon>zoom_in</mat-icon>
-        </button>
-        <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(-1)">
-            <mat-icon>zoom_out</mat-icon>
-        </button>
-    </div>
+  <div class="zoom-wrapper">
+    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(1)">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(-1)">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+  </div>
 </div>

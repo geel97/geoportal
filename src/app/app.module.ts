@@ -36,6 +36,6 @@ import { AttributionsDialogComponent } from './attributions-dialog/attributions-
     MatRadioModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
