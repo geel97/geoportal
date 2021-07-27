@@ -12,6 +12,7 @@ import { LayersService } from '../layers.service';
 })
 export class LayerSwitcherComponent {
   layers: Layer<SourceType>[];
+  isCollapsed: boolean = false;
 
   constructor(service: LayersService) {
     this.layers = service.layers;

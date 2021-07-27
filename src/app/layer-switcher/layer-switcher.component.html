@@ -1,11 +1,18 @@
-<mat-card class="layer-switcher">
-  <mat-card-subtitle>Layers</mat-card-subtitle>
+<button class="collapse-button" mat-mini-fab *ngIf="this.isCollapsed" (click)="this.isCollapsed = false">
+  <mat-icon>menu</mat-icon>
+</button>
+<mat-card class="layer-switcher" *ngIf="!this.isCollapsed">
+  <button class="close-button" mat-icon-button (click)="this.isCollapsed = true">
+    <mat-icon>close</mat-icon>
+  </button>
+  <mat-card-header>
+    <mat-card-subtitle>Layers</mat-card-subtitle>
+  </mat-card-header>
   <mat-card-content>
     <div *ngFor="let layer of layers; let i = index">
       <ng-container *ngIf="!layer.get('base')">
-        <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">{{
-          layer.get('name')
-        }}</mat-slide-toggle>
+        <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">
+          {{ layer.get('name') }}</mat-slide-toggle>
       </ng-container>
     </div>
   </mat-card-content>
@@ -15,13 +22,8 @@
       <mat-radio-group aria-label="Select a base layer" (change)="onChangeBaseLayer($event)">
         <ng-container *ngFor="let layer of layers; let i = index">
           <ng-container *ngIf="layer.get('base')">
-            <mat-radio-button
-              type="checkbox"
-              [checked]="layer.getVisible()"
-              value="{{ i }}"
-              (change)="onChangeBaseLayer($event)"
-              >{{ layer.get('name') }}</mat-radio-button
-            >
+            <mat-radio-button type="checkbox" [checked]="layer.getVisible()" value="{{ i }}"
+              (change)="onChangeBaseLayer($event)">{{ layer.get('name') }}</mat-radio-button>
           </ng-container>
         </ng-container>
       </mat-radio-group>
