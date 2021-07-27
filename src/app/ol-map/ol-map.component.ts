@@ -1,6 +1,6 @@
 import { LayersService } from './../layers.service';
 import { Component, OnInit } from '@angular/core';
-import { View, Feature, Map } from 'ol';
+import { View, Map } from 'ol';
 import Layer from 'ol/layer/Layer';
 import SourceType from 'ol/source/Source';
 import Select from 'ol/interaction/Select';
@@ -40,7 +40,6 @@ export class OlMapComponent implements OnInit {
         zoom: 11,
       }),
     });
-
     this.map.addInteraction(this.select);
     this.select.on('select', e => {
       const dialogConfig = new MatDialogConfig();

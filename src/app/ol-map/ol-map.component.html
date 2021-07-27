@@ -1,3 +1,13 @@
+<div id="map" class="map">
+  <div class="zoom-wrapper">
+    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(1)">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(-1)">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+  </div>
+</div>
 <div class="bottom-block">
   <ng-container *ngFor="let layer of layers">
     <ng-container *ngIf="layer.get('legendUrl') != undefined">
@@ -9,17 +19,6 @@
   <div class="attribution-wrapper">
     <button mat-mini-fab class="attribution" (click)="openAttributionsDialog()">
       <mat-icon>info</mat-icon>
-    </button>
-  </div>
-</div>
-
-<div id="map" class="map">
-  <div class="zoom-wrapper">
-    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(1)">
-      <mat-icon>zoom_in</mat-icon>
-    </button>
-    <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(-1)">
-      <mat-icon>zoom_out</mat-icon>
     </button>
   </div>
 </div>

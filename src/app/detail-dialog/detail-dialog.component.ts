@@ -1,4 +1,3 @@
-import { NodeWithI18n } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Collection from 'ol/Collection';
@@ -23,7 +22,7 @@ export class DetailDialogComponent implements OnInit {
   }
 
   featureKeysFilter(value: string, index: number, array: string[]): boolean {
-    //Filter out anything is not a mesurment
+    // TODO: Filter out anything is not a mesurment
     return value.startsWith('P01_');
   }
 

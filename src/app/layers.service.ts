@@ -27,7 +27,6 @@ export class LayersService {
     this.layers.push(osm);
 
     let radar = new TileLayer({
-      //extent: [-13884991, 2870341, -7455066, 6338219],
       source: new TileWMS({
         url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
         params: {
