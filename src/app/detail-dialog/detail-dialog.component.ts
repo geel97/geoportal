@@ -1,3 +1,4 @@
+import { NodeWithI18n } from '@angular/compiler';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Collection from 'ol/Collection';
@@ -23,5 +24,9 @@ export class DetailDialogComponent implements OnInit {
     //Filter out anything is not a mesurment
     return (value.startsWith('P01_'));
  }
+
+  daysElapsed(timestamp: string): number {
+    return (Date.now() - Date.parse(timestamp)) / (1000*60*60*24);
+  }
 
 }
