@@ -14,4 +14,13 @@
     </div>
 </div>
 
-<div id="map" class="map"></div>
+<div id="map" class="map">
+    <div class="zoom-wrapper">
+        <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(1)">
+            <mat-icon>zoom_in</mat-icon>
+        </button>
+        <button mat-mini-fab class="zoom-button" (click)="this.zoomByDelta(-1)">
+            <mat-icon>zoom_out</mat-icon>
+        </button>
+    </div>
+</div>

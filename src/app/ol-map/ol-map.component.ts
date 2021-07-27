@@ -7,7 +7,7 @@ import Select from 'ol/interaction/Select';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
-import { Zoom } from 'ol/control';
+import { easeOut } from 'ol/easing';
 
 @Component({
   selector: 'app-ol-map',
@@ -35,7 +35,7 @@ export class OlMapComponent implements OnInit {
     this.map = new Map({
       target: 'map',
       layers: this.layers,
-      controls: [new Zoom()],
+      controls: [],
       view: new View({
         center: [1513911.782216, 5725592.040729],
         zoom: 11
@@ -52,6 +52,37 @@ export class OlMapComponent implements OnInit {
         this.select.getFeatures().clear();
       });
     })
+  }
+
+  /**
+   * Code taken from: @module ol/control/Zoom
+   * @param {number} delta Zoom delta.
+   * @param {duration} duration Animation duration in milliseconds (default 250).
+   * @private
+   */
+  zoomByDelta(delta: number, duration: number = 250) {
+    const view = this.map.getView();
+    if (!view) {
+      // the map does not have a view, so we can't act
+      // upon it
+      return;
+    }
+    const currentZoom = view.getZoom();
+    if (currentZoom !== undefined) {
+      const newZoom = view.getConstrainedZoom(currentZoom + delta);
+      if (duration > 0) {
+        if (view.getAnimating()) {
+          view.cancelAnimations();
+        }
+        view.animate({
+          zoom: newZoom,
+          duration: duration,
+          easing: easeOut,
+        });
+      } else {
+        view.setZoom(newZoom);
+      }
+    }
   }
   
 }

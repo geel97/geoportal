@@ -37,3 +37,15 @@
 .attribution-wrapper {
   width: 40px;
 }
+
+.zoom-wrapper {
+  right: 5px;
+  position: absolute;
+  z-index: 2;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+
+.zoom-button {
+  margin: 2px
+}
