@@ -19,7 +19,7 @@ export class OlMapComponent implements OnInit {
   layers: Layer<SourceType>[];
   select: Select;
 
-  constructor(service: LayersService, public matDialog: MatDialog) {
+  constructor(service: LayersService, private matDialog: MatDialog) {
     this.layers = service.layers;
     this.select = new Select({
       style: service.styleFunction,
