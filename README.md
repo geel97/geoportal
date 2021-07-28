@@ -1,4 +1,6 @@
 # Geoportal
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![dependabot status](https://api.dependabot.com/badges/status?host=github&repo=geel97/geoportal)](https://dependabot.com/)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.3.
 
