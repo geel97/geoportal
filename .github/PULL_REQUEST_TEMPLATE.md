@@ -1,6 +1,6 @@
 <!--Include a few sentences describing the overall goals for this Pull Request-->
-  
-<!-- Please help our volunteers reviewing this PR by completing the following items. 
+
+<!-- Please help our volunteers reviewing this PR by completing the following items.
 Ask in a comment if you have troubles with any of them. -->
 
 # Checklist
