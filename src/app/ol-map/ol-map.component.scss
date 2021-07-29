@@ -49,3 +49,9 @@
 .zoom-button {
   margin: 2px;
 }
+
+@media (max-width: 425px) {
+  .zoom-wrapper {
+    display: none;
+  }
+}
