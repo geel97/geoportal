@@ -29,4 +29,18 @@ export var VOCABS: Vocab[] = [
     ],
     measurementUnit: 'µEquiv/l',
   },
+  {
+    id: 'ALONZZ01',
+    measurementName: [
+      {
+        locale: new Locale('en'),
+        name: 'Longitude east',
+      },
+      {
+        locale: new Locale('it'),
+        name: 'Longitudine est',
+      },
+    ],
+    measurementUnit: '°',
+  },
 ];
