@@ -20,6 +20,7 @@
     "@angular/platform-browser": "~12.1.4",
     "@angular/platform-browser-dynamic": "~12.1.4",
     "@angular/router": "~12.1.4",
+    "@types/locale": "^0.1.1",
     "@types/ol": "^6.5.3",
     "ol": "^6.5.3",
     "rxjs": "~6.6.0",
