@@ -29,4 +29,14 @@ export class DetailDialogComponent implements OnInit {
   daysElapsed(timestamp: string): number {
     return (Date.now() - Date.parse(timestamp)) / (1000 * 60 * 60 * 24);
   }
+
+  
+  dayFormat(newDate: string): any{
+
+    newDate = new Date(newDate).toUTCString();
+    newDate = newDate.split(' ').slice(1, 5).join(' ');
+    
+    return newDate;
+  }
+    
 }
