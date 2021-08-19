@@ -30,13 +30,11 @@ export class DetailDialogComponent implements OnInit {
     return (Date.now() - Date.parse(timestamp)) / (1000 * 60 * 60 * 24);
   }
 
-  
-  dayFormat(newDate: string): any{
-
-    newDate = new Date(newDate).toUTCString();
-    newDate = newDate.split(' ').slice(1, 5).join(' ');
-    
-    return newDate;
+  dayFormat(timestamp: string): string {
+    let date =
+      new Date(timestamp).toLocaleDateString() +
+      ' ' +
+      new Date(timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    return date;
   }
-    
 }
