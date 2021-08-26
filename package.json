@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~12.1.4",
     "@angular/router": "~12.1.4",
     "@types/ol": "^6.5.3",
+    "ngx-google-analytics": "^11.2.1",
     "ol": "^6.5.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",

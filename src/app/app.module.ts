@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
+import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AttributionsDialogComponent } from './attributions-dialog/attributions-
     MatIconModule,
     MatToolbarModule,
     MatRadioModule,
+    NgxGoogleAnalyticsModule.forRoot('UA-143978851-2'),
   ],
   providers: [],
   bootstrap: [AppComponent],
