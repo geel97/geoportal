@@ -25,6 +25,17 @@ export class LayersService {
     osm.set('base', true);
     this.layers.push(osm);
 
+    let bathymetry = new TileLayer({
+      source: new TileWMS({
+        url: 'https://ows.emodnet-bathymetry.eu/wms',
+        params: { LAYERS: 'mean_atlas_land' },
+      }),
+    });
+    bathymetry.set('name', 'EMODnet Bathymetry');
+    bathymetry.set('base', true);
+    bathymetry.setVisible(false);
+    this.layers.push(bathymetry);
+
     let radar = new TileLayer({
       source: new TileWMS({
         url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
