@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import GeoJSON from 'ol/format/GeoJSON';
-import Layer from 'ol/layer/Layer';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
-import SourceType from 'ol/source/Source';
 import { Style, Icon } from 'ol/style';
 import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
@@ -11,12 +9,13 @@ import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
 import { FeatureLike } from 'ol/Feature';
 import { StyleFunction } from 'ol/style/Style';
+import BaseLayer from 'ol/layer/Base';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayersService {
-  layers: Layer<SourceType>[] = [];
+  layers: BaseLayer[] = [];
 
   constructor() {
     let osm = new TileLayer({

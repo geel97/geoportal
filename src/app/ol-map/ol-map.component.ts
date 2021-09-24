@@ -1,13 +1,12 @@
 import { LayersService } from './../layers.service';
 import { Component, OnInit } from '@angular/core';
 import { View, Map } from 'ol';
-import Layer from 'ol/layer/Layer';
-import SourceType from 'ol/source/Source';
 import Select from 'ol/interaction/Select';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
 import { easeOut } from 'ol/easing';
+import BaseLayer from 'ol/layer/Base';
 
 @Component({
   selector: 'app-ol-map',
@@ -16,7 +15,7 @@ import { easeOut } from 'ol/easing';
 })
 export class OlMapComponent implements OnInit {
   map!: Map;
-  layers: Layer<SourceType>[];
+  layers: BaseLayer[];
   select: Select;
 
   constructor(service: LayersService, private matDialog: MatDialog) {

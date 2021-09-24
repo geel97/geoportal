@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import Layer from 'ol/layer/Layer';
-import SourceType from 'ol/source/Source';
+import BaseLayer from 'ol/layer/Base';
 import { LayersService } from '../layers.service';
 
 @Component({
@@ -11,7 +10,7 @@ import { LayersService } from '../layers.service';
   styleUrls: ['./layer-switcher.component.scss'],
 })
 export class LayerSwitcherComponent {
-  layers: Layer<SourceType>[];
+  layers: BaseLayer[];
   isCollapsed: boolean = false;
 
   constructor(service: LayersService) {
@@ -29,7 +28,7 @@ export class LayerSwitcherComponent {
     this.layers[event.value].setVisible(event.source.checked);
   }
 
-  isBaseLayer(layer: Layer<SourceType>): boolean {
+  isBaseLayer(layer: BaseLayer): boolean {
     return layer.get('base');
   }
 }
