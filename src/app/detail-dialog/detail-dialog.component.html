@@ -34,16 +34,6 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="daysElapsed(this.data.item(0).get('Ossigeno disciolto ts')) < 30">
-    <mat-card-header>
-      <mat-card-title>Oxygenation</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ this.data.item(0).get('Ossigeno disciolto') }} µmol/l</p>
-      <p>{{ dayFormat(this.data.item(0).get('Ossigeno disciolto ts')) }}</p>
-    </mat-card-content>
-  </mat-card>
-
   <mat-card *ngIf="daysElapsed(this.data.item(0).get('Direzione della raffica di vento ts')) < 30">
     <mat-card-header>
       <mat-card-title>Wind gust direction</mat-card-title>
@@ -84,4 +74,4 @@
     </mat-card-content>
   </mat-card>
 </mat-dialog-content>
-<i>All shown data is not older than one month.</i>
+<i>Only measurements collected in the last month are shown.</i>
