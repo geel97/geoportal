@@ -68,7 +68,7 @@ export class LayersService {
             '?service=WFS' +
             '&version=1.0.0' +
             '&request=GetFeature' +
-            '&typeName=Geoportal:v_ultimo_dato_erddap' +
+            '&typeName=Geoportal:geoportal_stations' +
             '&outputFormat=application/json&srsname=EPSG:3857&' +
             'bbox=' +
             extent.join(',') +

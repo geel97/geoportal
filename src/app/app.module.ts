@@ -15,6 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
     MatToolbarModule,
     MatRadioModule,
     NgxGoogleAnalyticsModule.forRoot('UA-143978851-2'),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
