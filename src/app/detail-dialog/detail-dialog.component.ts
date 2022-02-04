@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
+import { VocabService } from '../vocab.service';
 
 @Component({
   selector: 'app-detail-dialog',
@@ -14,7 +15,8 @@ export class DetailDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>,
     private dialogRef: MatDialogRef<DetailDialogComponent>,
-    private erdappService: ErddapService
+    private erdappService: ErddapService,
+    public vocabService: VocabService
   ) {
     this.cardsMeasurement = new Array<Measurement>();
   }
@@ -31,14 +33,12 @@ export class DetailDialogComponent implements OnInit {
           .getData(
             this.data.item(0).get('name'),
             { name: param, type: DataType.TIME_SERIES },
-            new Date(Date.now() - 86400000 * 2),
-            new Date(Date.now()),
-            true
+            true,
+            this.daysAgoMidnightUTC(7)
           )
           .subscribe(
             (response: any) => {
               this.cardsMeasurement = this.cardsMeasurement.concat(response);
-              console.log(this.cardsMeasurement);
             },
             (error: any) => console.log(error)
           );
@@ -47,7 +47,6 @@ export class DetailDialogComponent implements OnInit {
 
   closeModal() {
     this.dialogRef.close();
-    console.log(this.cardsMeasurement);
   }
 
   featureKeysFilter(value: string, index: number, array: string[]): boolean {
@@ -61,5 +60,17 @@ export class DetailDialogComponent implements OnInit {
 
   dayFormat(timestamp: Date): string {
     return new Date(timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  }
+
+  midnightUTC(): Date {
+    let date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
+  daysAgoMidnightUTC(days: number): Date {
+    let date = this.midnightUTC();
+    date.setDate(date.getDate() - days);
+    return date;
   }
 }

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -30,9 +30,9 @@ export class ErddapService {
   getData(
     dataset: string,
     parameter: Parameter,
+    lastMeasurement: boolean,
     timeStart: Date,
-    timeEnd?: Date,
-    lastMeasurement?: boolean
+    timeEnd?: Date
   ): Observable<Measurement[]> {
     let url =
       environment.erddapUrl +

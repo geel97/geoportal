@@ -6,10 +6,10 @@
 <mat-dialog-content class="content">
   <mat-card *ngFor="let measurement of this.cardsMeasurement">
     <mat-card-header>
-      <mat-card-title>{{ measurement.parameter.name }}</mat-card-title>
+      <mat-card-title>{{ this.vocabService.getMeasurementName(measurement.parameter.name) }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>{{ measurement.measurement }}</p>
+      <p>{{ measurement.measurement }} {{ this.vocabService.getMeasurementUnit(measurement.parameter.name) }}</p>
       <em>{{ measurement.depth >= 0 ? measurement.depth + 'm' : '' }}</em>
       <p>{{ dayFormat(measurement.timestamp) }}</p>
     </mat-card-content>
