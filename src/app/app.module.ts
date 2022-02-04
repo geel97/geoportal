@@ -39,7 +39,7 @@ import { HttpClientModule } from '@angular/common/http';
     NgxGoogleAnalyticsModule.forRoot('UA-143978851-2'),
     HttpClientModule,
   ],
-  providers: [HttpClientModule],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
