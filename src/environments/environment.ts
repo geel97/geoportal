@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  erddapUrl: 'https://nodc.inogs.it/erddap/',
+  erddapUrl: 'https://nodc.ogs.it/erddap/',
 };
 
 /*

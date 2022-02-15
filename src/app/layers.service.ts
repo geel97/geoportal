@@ -64,7 +64,7 @@ export class LayersService {
       source: new VectorSource({
         url: function (extent) {
           return (
-            'https://nodc.inogs.it/geoserver/Geoportal/ows' +
+            'https://nodc.ogs.it/geoserver/Geoportal/ows' +
             '?service=WFS' +
             '&version=1.0.0' +
             '&request=GetFeature' +

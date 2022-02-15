@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  erddapUrl: 'https://nodc.inogs.it/erddap/',
+  erddapUrl: 'https://nodc.ogs.it/erddap/',
 };
