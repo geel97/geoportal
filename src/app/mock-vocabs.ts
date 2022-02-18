@@ -57,7 +57,7 @@ export var VOCABS: Vocab[] = [
     measurementUnit: 's',
   },
   {
-    id: ' VAVH',
+    id: 'VAVH',
     measurementName: [
       {
         locale: 'en',

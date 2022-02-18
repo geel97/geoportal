@@ -1,29 +1,37 @@
-import { DataType, ErddapService, Measurement } from './../erddap.service';
-import { Component, Inject, OnInit } from '@angular/core';
+import { DataType, ErddapService, Measurement, Parameter } from './../erddap.service';
+import { Component, Inject, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../vocab.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-detail-dialog',
   templateUrl: './detail-dialog.component.html',
   styleUrls: ['./detail-dialog.component.scss'],
 })
-export class DetailDialogComponent implements OnInit {
+export class DetailDialogComponent implements AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>,
     private dialogRef: MatDialogRef<DetailDialogComponent>,
     private erdappService: ErddapService,
     public vocabService: VocabService
-  ) {
-    this.cardsMeasurement = new Array<Measurement>();
-  }
-  description: string = this.data.item(0).get('descriptio');
-  cardsMeasurement;
+  ) {}
+  @ViewChild(MatSort)
+  sort!: MatSort;
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
 
-  ngOnInit(): void {
+  cardsMeasurement = new MatTableDataSource();
+  description: string = this.data.item(0).get('descriptio');
+
+  displayedColumns: string[] = ['parameter', 'measurement', 'depth', 'timestamp'];
+
+  ngAfterViewInit(): void {
     this.data
       .item(0)
       .get('dialog_par')
@@ -38,11 +46,21 @@ export class DetailDialogComponent implements OnInit {
           )
           .subscribe(
             (response: any) => {
-              this.cardsMeasurement = this.cardsMeasurement.concat(response);
+              this.cardsMeasurement.data = this.cardsMeasurement.data.concat(response);
             },
             (error: any) => console.log(error)
           );
       });
+    this.cardsMeasurement.sort = this.sort;
+    this.cardsMeasurement.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'parameter':
+          return this.vocabService.getMeasurementName((item as Measurement).parameter.name);
+        default:
+          return (item as any)[property];
+      }
+    };
+    this.cardsMeasurement.paginator = this.paginator;
   }
 
   closeModal() {
@@ -59,7 +77,13 @@ export class DetailDialogComponent implements OnInit {
   }
 
   dayFormat(timestamp: Date): string {
-    return new Date(timestamp).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    return new Date(timestamp).toLocaleTimeString([], {
+      day: 'numeric',
+      month: 'numeric',
+      year: '2-digit',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   }
 
   midnightUTC(): Date {

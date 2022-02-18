@@ -2,17 +2,46 @@
   <mat-icon>close</mat-icon>
 </button>
 <div matDialogTitle><img src="assets/buoy.png" /> {{ this.data.item(0).get('name') }}</div>
-<div [innerHTML]="description"></div>
-<mat-dialog-content class="content">
-  <mat-card *ngFor="let measurement of this.cardsMeasurement">
-    <mat-card-header>
-      <mat-card-title>{{ this.vocabService.getMeasurementName(measurement.parameter.name) }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ measurement.measurement }} {{ this.vocabService.getMeasurementUnit(measurement.parameter.name) }}</p>
-      <em>{{ measurement.depth >= 0 ? measurement.depth + 'm' : '' }}</em>
-      <p>{{ dayFormat(measurement.timestamp) }}</p>
-    </mat-card-content>
-  </mat-card>
-</mat-dialog-content>
-<i>Only measurements collected in the last week are shown.</i>
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Latest data">
+    <!-- <div [innerHTML]="description"></div> -->
+    <table mat-table [dataSource]="cardsMeasurement" class="mat-elevation-z8 demo-table" matSort>
+      <ng-container matColumnDef="parameter">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let element">{{ this.vocabService.getMeasurementName(element.parameter.name) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="measurement">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Measure</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.measurement + ' ' + this.vocabService.getMeasurementUnit(element.parameter.name) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="depth">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Depth</th>
+        <td mat-cell *matCellDef="let element">{{ element.depth >= 0 ? element.depth + 'm' : '' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="timestamp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>TimeStamp</th>
+        <td mat-cell *matCellDef="let element">{{ dayFormat(element.timestamp) }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[10]"
+      showFirstLastButtons
+      [showFirstLastButtons]="false"
+      hidePageSize
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </mat-tab>
+  <i>Only measurements collected in the last week are shown.</i>
+  <mat-tab label="Graphs">
+    <app-graphs [data]="data"></app-graphs>
+  </mat-tab>
+</mat-tab-group>

@@ -35,8 +35,8 @@ export class OlMapComponent implements OnInit {
       layers: this.layers,
       controls: [],
       view: new View({
-        center: [1513911.782216, 5725592.040729],
-        zoom: 11,
+        center: [1685283.599632, 5360375.919583],
+        zoom: 7,
         enableRotation: false,
       }),
     });

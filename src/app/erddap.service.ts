@@ -52,6 +52,7 @@ export class ErddapService {
     url += '&' + parameter.name + '!=NaN';
 
     if (lastMeasurement) url += '&orderByMax("depth,time")';
+    else url += '&orderBy("time")';
 
     return this.http.get(url).pipe(
       map((result: any) => {
@@ -68,6 +69,22 @@ export class ErddapService {
           });
         });
         return measurements;
+      })
+    );
+  }
+
+  getDepth(dataset: string, parameter: Parameter, timeStart: Date, timeEnd?: Date): Observable<number[]> {
+    let url = environment.erddapUrl + 'tabledap/' + dataset + '_' + parameter.type + '.json?' + 'depth';
+    '&time>=' + timeStart.toISOString();
+
+    if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
+
+    url += '&' + parameter.name + '!=NaN';
+    url += '&orderBy("depth")';
+    url += '&distinct()';
+    return this.http.get(url).pipe(
+      map((result: any) => {
+        return result.table.rows.map((row: number[]) => row[0]);
       })
     );
   }

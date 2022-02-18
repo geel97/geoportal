@@ -90,14 +90,14 @@ export class LayersService {
         return new Style({
           image: new Icon({
             src: 'assets/buoy.png',
-            scale: 0.8,
+            scale: 1.0,
           }),
         });
       default:
         return new Style({
           image: new Icon({
             src: 'assets/buoy.png',
-            scale: 0.8,
+            scale: 1.0,
           }),
         });
     }
