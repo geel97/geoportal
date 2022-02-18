@@ -21,3 +21,37 @@ mat-card {
   top: -24px;
   right: -24px;
 }
+
+.demo-table {
+  width: 100%;
+}
+
+.mat-column-parameter {
+  width: 32px;
+  font-size: 15px;
+  padding-right: 24px;
+}
+
+.mat-column-measurement {
+  padding-left: 16px;
+  font-size: 15px;
+}
+
+.mat-column-symbol {
+  padding-left: 16px;
+  font-size: 15px;
+}
+
+.mat-column-depth {
+  padding-left: 16px;
+  width: 60px;
+  padding-left: 16px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.mat-column-timestamp {
+  font-size: 15px;
+  width: 32px;
+  text-align: center;
+}

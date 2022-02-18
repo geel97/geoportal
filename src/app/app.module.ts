@@ -16,6 +16,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { GraphsComponent } from './graphs/graphs.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -24,6 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     LayerSwitcherComponent,
     DetailDialogComponent,
     AttributionsDialogComponent,
+    GraphsComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +45,11 @@ import { HttpClientModule } from '@angular/common/http';
     MatRadioModule,
     NgxGoogleAnalyticsModule.forRoot('UA-143978851-2'),
     HttpClientModule,
+    MatTabsModule,
+    MatTableModule,
+    HighchartsChartModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
