@@ -25,6 +25,7 @@ IndicatorZigzag(Highcharts);
 export class GraphsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   updateFlag = false;
+  loading = true;
 
   @Input() data!: Collection<Feature<Geometry>>;
   chartOptions: Options;
@@ -56,6 +57,7 @@ export class GraphsComponent implements OnInit {
 
   getDataArray(dataset: string, parameter: Parameter, timeStart: Date, timeEnd?: Date) {
     let dataArray = new Array<PointOptionsObject>();
+    this.loading = true;
     this.erdappService.getData(dataset, parameter, false, timeStart, timeEnd).subscribe(
       (response: Measurement[]) => {
         dataArray = response.map((measure: Measurement) => {
@@ -77,10 +79,15 @@ export class GraphsComponent implements OnInit {
             },
           },
         ];
-
-        this.updateFlag = true;
       },
-      (error: any) => console.log(error)
+      (error: any) => {
+        this.loading = false;
+        console.log(error);
+      },
+      () => {
+        this.updateFlag = true;
+        this.loading = false;
+      }
     );
     return dataArray;
   }

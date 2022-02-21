@@ -14,13 +14,14 @@ import { MatPaginator } from '@angular/material/paginator';
   templateUrl: './detail-dialog.component.html',
   styleUrls: ['./detail-dialog.component.scss'],
 })
-export class DetailDialogComponent implements AfterViewInit {
+export class DetailDialogComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Collection<Feature<Geometry>>,
     private dialogRef: MatDialogRef<DetailDialogComponent>,
     private erdappService: ErddapService,
     public vocabService: VocabService
   ) {}
+
   @ViewChild(MatSort)
   sort!: MatSort;
   @ViewChild(MatPaginator)
@@ -28,15 +29,16 @@ export class DetailDialogComponent implements AfterViewInit {
 
   cardsMeasurement = new MatTableDataSource();
   description: string = this.data.item(0).get('descriptio');
-
+  loading = 0;
   displayedColumns: string[] = ['parameter', 'measurement', 'depth', 'timestamp'];
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.data
       .item(0)
       .get('dialog_par')
       .split(',')
       .forEach((param: string) => {
+        this.loading++;
         this.erdappService
           .getData(
             this.data.item(0).get('name'),
@@ -48,7 +50,11 @@ export class DetailDialogComponent implements AfterViewInit {
             (response: any) => {
               this.cardsMeasurement.data = this.cardsMeasurement.data.concat(response);
             },
-            (error: any) => console.log(error)
+            (error: any) => {
+              this.loading--;
+              console.log(error);
+            },
+            () => this.loading--
           );
       });
     this.cardsMeasurement.sort = this.sort;
@@ -60,6 +66,9 @@ export class DetailDialogComponent implements AfterViewInit {
           return (item as any)[property];
       }
     };
+  }
+
+  ngAfterViewInit(): void {
     this.cardsMeasurement.paginator = this.paginator;
   }
 

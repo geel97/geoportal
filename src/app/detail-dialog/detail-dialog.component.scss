@@ -21,3 +21,15 @@ mat-card {
   top: -24px;
   right: -24px;
 }
+
+.mat-row {
+  height: auto;
+}
+
+.mat-cell {
+  padding: 8px 8px 8px 0;
+}
+
+mat-progress-bar {
+  padding-top: 3px;
+}

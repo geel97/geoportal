@@ -4,6 +4,9 @@
 <div matDialogTitle><img src="assets/buoy.png" /> {{ this.data.item(0).get('name') }}</div>
 <mat-tab-group dynamicHeight>
   <mat-tab label="Latest data">
+    <div [hidden]="!loading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
     <!-- <div [innerHTML]="description"></div> -->
     <table mat-table [dataSource]="cardsMeasurement" class="mat-elevation-z8 demo-table" matSort>
       <ng-container matColumnDef="parameter">
