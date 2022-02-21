@@ -57,6 +57,10 @@ export class DetailDialogComponent implements OnInit, AfterViewInit {
             () => this.loading--
           );
       });
+  }
+
+  ngAfterViewInit(): void {
+    this.cardsMeasurement.paginator = this.paginator;
     this.cardsMeasurement.sort = this.sort;
     this.cardsMeasurement.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -66,10 +70,6 @@ export class DetailDialogComponent implements OnInit, AfterViewInit {
           return (item as any)[property];
       }
     };
-  }
-
-  ngAfterViewInit(): void {
-    this.cardsMeasurement.paginator = this.paginator;
   }
 
   closeModal() {
