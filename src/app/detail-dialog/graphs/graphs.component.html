@@ -2,5 +2,11 @@
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
-  <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" [(update)]="updateFlag"> </highcharts-chart>
+  <highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    [(update)]="updateFlag"
+    [constructorType]="'stockChart'"
+  >
+  </highcharts-chart>
 </div>
