@@ -7,6 +7,18 @@
     [options]="chartOptions"
     [(update)]="updateFlag"
     [constructorType]="'stockChart'"
+    [callbackFunction]="chartCallback"
   >
   </highcharts-chart>
 </div>
+<ng-container *ngIf="timeseriesLoaded | async">
+  <div *ngFor="let timeseries of timeseries; let i = index">
+    <mat-checkbox>{{ timeseries.parameter.name }}</mat-checkbox>
+    <ng-container *ngIf="timeseries.depths.length > 1">
+      <mat-checkbox *ngFor="let depth of timeseries.depths">{{ depth }}</mat-checkbox>
+    </ng-container>
+    <ng-container *ngIf="timeseries.depths.length <= 1">
+      <em>{{ timeseries.depths[0] }}</em>
+    </ng-container>
+  </div>
+</ng-container>

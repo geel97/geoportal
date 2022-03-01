@@ -9,6 +9,11 @@ import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../../vocab.service';
 
+interface TimeSeries {
+  parameter: Parameter;
+  depths: number[];
+}
+
 @Component({
   selector: 'app-graphs',
   templateUrl: './graphs.component.html',
@@ -18,12 +23,24 @@ export class GraphsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   updateFlag = false;
   loading = true;
-
+  chartRef!: Highcharts.Chart;
+  timeseries: TimeSeries[] = [];
+  timeseriesLoaded!: Promise<boolean>;
+  chartCallback: Highcharts.ChartCallbackFunction = chart => {
+    this.chartRef = chart;
+  };
   @Input() data!: Collection<Feature<Geometry>>;
   chartOptions: Options;
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {
     this.chartOptions = {
       title: { text: undefined },
+      chart: {
+        events: {
+          load: event => {
+            this.chartRef.showLoading('Loading data from server...');
+          },
+        },
+      },
       time: {
         useUTC: false,
       },
@@ -71,21 +88,36 @@ export class GraphsComponent implements OnInit {
           text: 'Date',
         },
       },
-      series: [
-        {
-          type: 'line',
-          data: [],
-        },
-      ],
+      series: [],
     };
   }
 
   ngOnInit(): void {
+    this.getTimeSeriesAvailable(this.data.item(0).get('name'), this.daysAgoMidnightUTC(120));
+
     this.getDataArray(
       this.data.item(0).get('name'),
       { name: 'WSPD', type: DataType.TIME_SERIES },
       this.daysAgoMidnightUTC(120)
     );
+  }
+
+  getTimeSeriesAvailable(dataset: string, timeStart: Date, timeEnd?: Date) {
+    this.data
+      .item(0)
+      .get('dialog_par')
+      .split(',')
+      .map((param: string) => {
+        this.erdappService
+          .getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd)
+          .subscribe((response: number[]) => {
+            this.timeseries = this.timeseries.concat({
+              parameter: { name: param, type: DataType.TIME_SERIES },
+              depths: response,
+            });
+            this.timeseriesLoaded = Promise.resolve(true);
+          });
+      });
   }
 
   getDataArray(dataset: string, parameter: Parameter, timeStart: Date, timeEnd?: Date) {
@@ -97,33 +129,32 @@ export class GraphsComponent implements OnInit {
           return [new Date(measure.timestamp).getTime(), measure.measurement];
         });
 
-        this.chartOptions.series = [
-          {
-            name: this.vocabService.getMeasurementName(parameter.name),
-            type: 'line',
-            data: dataArray,
-            tooltip: {
-              valueDecimals: 2,
-              valueSuffix: this.vocabService.getMeasurementUnit(parameter.name),
-            },
+        this.chartRef.addSeries({
+          id: parameter.name,
+          name: this.vocabService.getMeasurementName(parameter.name),
+          type: 'line',
+          data: dataArray,
+          tooltip: {
+            valueDecimals: 2,
+            valueSuffix: this.vocabService.getMeasurementUnit(parameter.name),
           },
-        ];
-        this.chartOptions.yAxis = [
-          {
-            type: 'linear',
-            title: {
-              text: this.vocabService.getMeasurementUnit(parameter.name),
-            },
+        });
+        this.chartRef.addAxis({
+          type: 'linear',
+          title: {
+            text: this.vocabService.getMeasurementUnit(parameter.name),
           },
-        ];
+        });
       },
       (error: any) => {
         this.loading = false;
+        this.chartRef.hideLoading();
         console.log(error);
       },
       () => {
         this.updateFlag = true;
         this.loading = false;
+        this.chartRef.hideLoading();
       }
     );
     return dataArray;
