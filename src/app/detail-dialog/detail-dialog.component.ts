@@ -33,30 +33,32 @@ export class DetailDialogComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['parameter', 'measurement', 'depth', 'timestamp'];
 
   ngOnInit(): void {
-    this.data
-      .item(0)
-      .get('dialog_par')
-      .split(',')
-      .forEach((param: string) => {
-        this.loading++;
-        this.erdappService
-          .getData(
-            this.data.item(0).get('name'),
-            { name: param, type: DataType.TIME_SERIES },
-            true,
-            this.daysAgoMidnightUTC(7)
-          )
-          .subscribe(
-            (response: any) => {
-              this.cardsMeasurement.data = this.cardsMeasurement.data.concat(response);
-            },
-            (error: any) => {
-              this.loading--;
-              console.log(error);
-            },
-            () => this.loading--
-          );
-      });
+    let dialogParam = this.data.item(0).get('dialog_par').split(',');
+
+    dialogParam.map((param: string, index: number) => {
+      this.loading++;
+      this.erdappService
+        .getLastMeasurements(
+          this.data.item(0).get('name'),
+          { name: param, type: DataType.TIME_SERIES },
+          this.daysAgoMidnightUTC(7)
+        )
+        .subscribe(
+          (response: Measurement[]) => {
+            this.cardsMeasurement.data = this.cardsMeasurement.data.concat(response);
+            (this.cardsMeasurement.data as Measurement[]).sort(
+              (a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name)
+            );
+            this.cardsMeasurement._updateChangeSubscription();
+            console.log(this.cardsMeasurement.data);
+          },
+          (error: any) => {
+            this.loading--;
+            console.log(error);
+          },
+          () => this.loading--
+        );
+    });
   }
 
   ngAfterViewInit(): void {

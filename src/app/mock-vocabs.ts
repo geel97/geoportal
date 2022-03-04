@@ -160,11 +160,11 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Wind from direction relative true north',
+        name: 'Wind direction',
       },
       {
         locale: 'it',
-        name: 'Direzione del vento relativo al true north',
+        name: 'Direzione del vento',
       },
     ],
     measurementUnit: '°',
@@ -188,7 +188,7 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Air temperature(dry bulb)',
+        name: 'Air temperature',
       },
       {
         locale: 'it',
@@ -202,11 +202,11 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Atmospheric pressure at sea level',
+        name: 'Atmospheric pressure',
       },
       {
         locale: 'it',
-        name: 'Pressione atmosferica al livello del mare*',
+        name: 'Pressione atmosferica',
       },
     ],
     measurementUnit: 'hPa',
@@ -234,7 +234,7 @@ export var VOCABS: Vocab[] = [
       },
       {
         locale: 'it',
-        name: 'Velocità delle raffiche di vento*',
+        name: 'Velocità della raffica di vento',
       },
     ],
     measurementUnit: 'm/s',
@@ -244,21 +244,21 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Gust wind from direction relative true north',
+        name: 'Gust wind direction',
       },
       {
         locale: 'it',
-        name: 'Direzione delle raffiche di vento (true north)',
+        name: 'Direzione della raffica di vento',
       },
     ],
     measurementUnit: '°',
   },
   {
-    id: 'RDIN',
+    id: 'SINC',
     measurementName: [
       {
         locale: 'en',
-        name: 'Radiation',
+        name: 'Shortwave incoming radiation',
       },
       {
         locale: 'it',
@@ -272,7 +272,7 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Longwave/atmospheric incoming radiation',
+        name: 'Longwave incoming radiation',
       },
       {
         locale: 'it',
@@ -290,7 +290,7 @@ export var VOCABS: Vocab[] = [
       },
       {
         locale: 'it',
-        name: 'CO₂ pressione parziale',
+        name: 'Pressione parziale della CO₂',
       },
     ],
     measurementUnit: 'µatm',
@@ -360,7 +360,7 @@ export var VOCABS: Vocab[] = [
       },
       {
         locale: 'it',
-        name: 'Conduttività elettrica',
+        name: 'Conducibilità elettrica',
       },
     ],
     measurementUnit: 'S/m',
@@ -384,7 +384,7 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Immerged incoming photosynthetic active radiation',
+        name: 'Incoming photosynthetic radiation',
       },
       {
         locale: 'it',
@@ -402,7 +402,7 @@ export var VOCABS: Vocab[] = [
       },
       {
         locale: 'it',
-        name: 'Chlorophyll-a',
+        name: 'Clorofilla-a',
       },
     ],
     measurementUnit: 'mg m-3',

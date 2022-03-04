@@ -27,10 +27,10 @@ export interface Measurement {
 export class ErddapService {
   constructor(private http: HttpClient) {}
 
-  getData(
+  getMeasurements(
     dataset: string,
     parameter: Parameter,
-    lastMeasurement: boolean,
+    depth: number,
     timeStart: Date,
     timeEnd?: Date
   ): Observable<Measurement[]> {
@@ -44,15 +44,63 @@ export class ErddapService {
       'time,' +
       'depth,' +
       parameter.name +
-      '&time>=' +
-      timeStart.toISOString();
+      '&' +
+      parameter.name +
+      '_QC=~"[0-2]"';
+    '&time>=' + timeStart.toISOString();
 
     if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
 
     url += '&' + parameter.name + '!=NaN';
 
-    if (lastMeasurement) url += '&orderByMax("depth,time")';
-    else url += '&orderBy("time")';
+    url += '&depth=' + depth;
+
+    url += '&orderBy("time")';
+
+    return this.http.get(url).pipe(
+      map((result: any) => {
+        let measurements = new Array();
+        result.table.rows.forEach((row: any) => {
+          measurements.push({
+            parameter: {
+              name: result.table.columnNames[2],
+              type: parameter.type,
+            },
+            measurement: row[2],
+            depth: row[1],
+            timestamp: row[0],
+          });
+        });
+        return measurements;
+      })
+    );
+  }
+
+  getLastMeasurements(
+    dataset: string,
+    parameter: Parameter,
+    timeStart: Date,
+    timeEnd?: Date
+  ): Observable<Measurement[]> {
+    let url =
+      environment.erddapUrl +
+      'tabledap/' +
+      dataset +
+      '_' +
+      parameter.type +
+      '.json?' +
+      'time,' +
+      'depth,' +
+      parameter.name +
+      '&' +
+      parameter.name +
+      '_QC=~"[0-2]"';
+    '&time>=' + timeStart.toISOString();
+
+    if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
+
+    url += '&' + parameter.name + '!=NaN';
+    url += '&orderByMax("depth,time")';
 
     return this.http.get(url).pipe(
       map((result: any) => {
@@ -80,6 +128,7 @@ export class ErddapService {
     if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
 
     url += '&' + parameter.name + '!=NaN';
+    '&' + parameter.name + '_QC=~"[0-2]"';
     url += '&orderBy("depth")';
     url += '&distinct()';
     return this.http.get(url).pipe(

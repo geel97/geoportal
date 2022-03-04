@@ -1,7 +1,7 @@
 <div [hidden]="!loading">
   <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
+<div class="chart">
   <highcharts-chart
     [Highcharts]="Highcharts"
     [options]="chartOptions"
@@ -11,14 +11,29 @@
   >
   </highcharts-chart>
 </div>
-<ng-container *ngIf="timeseriesLoaded | async">
-  <div *ngFor="let timeseries of timeseries; let i = index">
-    <mat-checkbox>{{ timeseries.parameter.name }}</mat-checkbox>
-    <ng-container *ngIf="timeseries.depths.length > 1">
-      <mat-checkbox *ngFor="let depth of timeseries.depths">{{ depth }}</mat-checkbox>
-    </ng-container>
-    <ng-container *ngIf="timeseries.depths.length <= 1">
-      <em>{{ timeseries.depths[0] }}</em>
-    </ng-container>
-  </div>
-</ng-container>
+<mat-card class="series-card" *ngIf="timeseriesLoaded | async">
+  <mat-card-content>
+    <section class="param-section" *ngFor="let timeseries of timeseries; let i = index">
+      <span>
+        <mat-checkbox
+          class="param-margin"
+          [checked]="allSelected(timeseries)"
+          [indeterminate]="someSelected(timeseries)"
+          (change)="selectAll($event.checked, timeseries); updateChart()"
+        >
+          {{ this.vocabService.getMeasurementName(timeseries.parameter.name) }}
+        </mat-checkbox>
+        <ng-container *ngIf="timeseries.series.length == 1 && timeseries.series[0].depth > 0"
+          >{{ timeseries.series[0].depth }}m</ng-container
+        >
+      </span>
+      <span [hidden]="timeseries.series.length <= 1">
+        <ul>
+          <li *ngFor="let series of timeseries.series">
+            <mat-checkbox [(ngModel)]="series.selected" (change)="updateChart()"> {{ series.depth }}m </mat-checkbox>
+          </li>
+        </ul>
+      </span>
+    </section>
+  </mat-card-content>
+</mat-card>

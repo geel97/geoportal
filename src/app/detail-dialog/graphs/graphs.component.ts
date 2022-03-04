@@ -1,17 +1,22 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
 import { DataType, ErddapService, Parameter, Measurement } from '../../erddap.service';
-import IndicatorsCore from 'highcharts/indicators/indicators';
-import IndicatorZigzag from 'highcharts/indicators/zigzag';
 import { Options } from 'highcharts';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../../vocab.service';
+import HC_exporting from 'highcharts/modules/exporting';
+import HC_exportdata from 'highcharts/modules/export-data';
+HC_exporting(Highcharts);
+HC_exportdata(Highcharts);
 
 interface TimeSeries {
   parameter: Parameter;
-  depths: number[];
+  series: {
+    depth: number;
+    selected: boolean;
+  }[];
 }
 
 @Component({
@@ -22,13 +27,43 @@ interface TimeSeries {
 export class GraphsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   updateFlag = false;
-  loading = true;
+  loading = 0;
   chartRef!: Highcharts.Chart;
   timeseries: TimeSeries[] = [];
   timeseriesLoaded!: Promise<boolean>;
   chartCallback: Highcharts.ChartCallbackFunction = chart => {
     this.chartRef = chart;
   };
+
+  allSelected(timeseries: TimeSeries) {
+    return timeseries.series != null && timeseries.series.every(s => s.selected);
+  }
+  someSelected(timeseries: TimeSeries): boolean {
+    return timeseries.series != null && timeseries.series.some(s => s.selected) && !this.allSelected(timeseries);
+  }
+  selectAll(selected: boolean, timeseries: TimeSeries) {
+    if (timeseries.series == null) return;
+    timeseries.series.forEach(s => (s.selected = selected));
+  }
+
+  updateChart() {
+    this.timeseries.forEach(timeseries => {
+      timeseries.series.forEach(series => {
+        if (series.selected)
+          if (!this.chartRef.get(timeseries.parameter.name + series.depth))
+            this.addSeries(
+              this.data.item(0).get('name'),
+              timeseries.parameter,
+              series.depth,
+              this.daysAgoMidnightUTC(120)
+            );
+          else (this.chartRef.get(timeseries.parameter.name + series.depth) as Highcharts.Series).show();
+        else if (this.chartRef.get(timeseries.parameter.name + series.depth))
+          (this.chartRef.get(timeseries.parameter.name + series.depth) as Highcharts.Series).hide();
+      });
+    });
+  }
+
   @Input() data!: Collection<Feature<Geometry>>;
   chartOptions: Options;
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {
@@ -37,7 +72,7 @@ export class GraphsComponent implements OnInit {
       chart: {
         events: {
           load: event => {
-            this.chartRef.showLoading('Loading data from server...');
+            this.chartRef.showLoading('Select a series...');
           },
         },
       },
@@ -45,6 +80,8 @@ export class GraphsComponent implements OnInit {
         useUTC: false,
       },
       rangeSelector: {
+        enabled: true,
+        selected: 2,
         buttons: [
           {
             type: 'hour',
@@ -82,6 +119,9 @@ export class GraphsComponent implements OnInit {
           },
         ],
       },
+      navigator: {
+        enabled: false,
+      },
       xAxis: {
         type: 'datetime',
         title: {
@@ -94,12 +134,6 @@ export class GraphsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTimeSeriesAvailable(this.data.item(0).get('name'), this.daysAgoMidnightUTC(120));
-
-    this.getDataArray(
-      this.data.item(0).get('name'),
-      { name: 'WSPD', type: DataType.TIME_SERIES },
-      this.daysAgoMidnightUTC(120)
-    );
   }
 
   getTimeSeriesAvailable(dataset: string, timeStart: Date, timeEnd?: Date) {
@@ -108,52 +142,68 @@ export class GraphsComponent implements OnInit {
       .get('dialog_par')
       .split(',')
       .map((param: string) => {
-        this.erdappService
-          .getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd)
-          .subscribe((response: number[]) => {
+        this.loading++;
+        this.erdappService.getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd).subscribe(
+          (response: number[]) => {
             this.timeseries = this.timeseries.concat({
               parameter: { name: param, type: DataType.TIME_SERIES },
-              depths: response,
+              series: response.map(depth => {
+                return { depth: depth, selected: false };
+              }),
             });
             this.timeseriesLoaded = Promise.resolve(true);
-          });
+          },
+          (error: any) => {
+            this.loading--;
+            console.log(error);
+          },
+          () => {
+            this.loading--;
+          }
+        );
       });
   }
 
-  getDataArray(dataset: string, parameter: Parameter, timeStart: Date, timeEnd?: Date) {
+  addSeries(dataset: string, parameter: Parameter, depth: number, timeStart: Date, timeEnd?: Date) {
     let dataArray: number[][] = [];
-    this.loading = true;
-    this.erdappService.getData(dataset, parameter, false, timeStart, timeEnd).subscribe(
+    this.loading++;
+    this.erdappService.getMeasurements(dataset, parameter, depth, timeStart, timeEnd).subscribe(
       (response: Measurement[]) => {
         dataArray = response.map((measure: Measurement) => {
           return [new Date(measure.timestamp).getTime(), measure.measurement];
         });
+        let measurementUnit = this.vocabService.getMeasurementUnit(parameter.name);
+
+        if (measurementUnit !== undefined && !this.chartRef.get(measurementUnit))
+          this.chartRef.addAxis({
+            id: measurementUnit,
+            type: 'linear',
+            showEmpty: false,
+            labels: {
+              format: '{value} ' + measurementUnit,
+            },
+          });
 
         this.chartRef.addSeries({
-          id: parameter.name,
+          id: parameter.name + depth,
           name: this.vocabService.getMeasurementName(parameter.name),
           type: 'line',
+          yAxis: measurementUnit,
           data: dataArray,
           tooltip: {
             valueDecimals: 2,
-            valueSuffix: this.vocabService.getMeasurementUnit(parameter.name),
-          },
-        });
-        this.chartRef.addAxis({
-          type: 'linear',
-          title: {
-            text: this.vocabService.getMeasurementUnit(parameter.name),
+            valueSuffix: measurementUnit,
           },
         });
       },
       (error: any) => {
-        this.loading = false;
+        this.loading--;
         this.chartRef.hideLoading();
         console.log(error);
       },
       () => {
         this.updateFlag = true;
-        this.loading = false;
+        this.loading--;
         this.chartRef.hideLoading();
       }
     );
