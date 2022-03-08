@@ -15,7 +15,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GraphsComponent } from './detail-dialog/graphs/graphs.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -25,6 +25,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
+import { CachingInterceptor } from './interceptors/cache-interceptor';
+import { CacheService } from './cache.service';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,7 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
