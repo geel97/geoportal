@@ -46,8 +46,9 @@ export class ErddapService {
       parameter.name +
       '&' +
       parameter.name +
-      '_QC=~"[0-2]"';
-    '&time>=' + timeStart.toISOString();
+      '_QC=~"[0-2]"' +
+      '&time>=' +
+      timeStart.toISOString();
 
     if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
 
@@ -94,8 +95,9 @@ export class ErddapService {
       parameter.name +
       '&' +
       parameter.name +
-      '_QC=~"[0-2]"';
-    '&time>=' + timeStart.toISOString();
+      '_QC=~"[0-2]"' +
+      '&time>=' +
+      timeStart.toISOString();
 
     if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
 
@@ -122,13 +124,21 @@ export class ErddapService {
   }
 
   getDepth(dataset: string, parameter: Parameter, timeStart: Date, timeEnd?: Date): Observable<number[]> {
-    let url = environment.erddapUrl + 'tabledap/' + dataset + '_' + parameter.type + '.json?' + 'depth';
-    '&time>=' + timeStart.toISOString();
+    let url =
+      environment.erddapUrl +
+      'tabledap/' +
+      dataset +
+      '_' +
+      parameter.type +
+      '.json?' +
+      'depth' +
+      '&time>=' +
+      timeStart.toISOString();
 
     if (timeEnd != null) url += '&time<=' + timeEnd.toISOString();
 
     url += '&' + parameter.name + '!=NaN';
-    '&' + parameter.name + '_QC=~"[0-2]"';
+    url += '&' + parameter.name + '_QC=~"[0-2]"';
     url += '&orderBy("depth")';
     url += '&distinct()';
     return this.http.get(url).pipe(
