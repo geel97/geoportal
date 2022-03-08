@@ -72,16 +72,30 @@ export class GraphsComponent implements OnInit {
       chart: {
         events: {
           load: event => {
-            this.chartRef.showLoading('Select a series...');
+            this.chartRef.showLoading('Please select one or more series');
           },
         },
       },
       time: {
         useUTC: false,
       },
+      exporting: {
+        buttons: {
+          contextButton: {
+            menuItems: ["printChart",
+                      "separator",
+                      "downloadPNG",
+                      "downloadJPEG",
+                      "downloadPDF",
+                      "downloadSVG",
+                      "separator",
+                      "downloadCSV",
+                      "downloadXLS"]
+        }
+      }},
+      
       rangeSelector: {
         enabled: true,
-        selected: 2,
         buttons: [
           {
             type: 'hour',
@@ -113,9 +127,10 @@ export class GraphsComponent implements OnInit {
             title: 'View 1 month',
           },
           {
-            type: 'all',
-            text: '6m',
-            title: 'View 6 months',
+            type: 'month',
+            count: 4,
+            text: '4m',
+            title: 'View 4 months',
           },
         ],
       },
@@ -123,6 +138,7 @@ export class GraphsComponent implements OnInit {
         enabled: false,
       },
       xAxis: {
+        ordinal: false,
         type: 'datetime',
         title: {
           text: 'Date',
@@ -137,11 +153,8 @@ export class GraphsComponent implements OnInit {
   }
 
   getTimeSeriesAvailable(dataset: string, timeStart: Date, timeEnd?: Date) {
-    this.data
-      .item(0)
-      .get('dialog_par')
-      .split(',')
-      .map((param: string) => {
+    let dialogParam = this.data.item(0).get('dialog_par').split(',');
+    dialogParam.map((param: string) => {
         this.loading++;
         this.erdappService.getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd).subscribe(
           (response: number[]) => {
@@ -151,6 +164,9 @@ export class GraphsComponent implements OnInit {
                 return { depth: depth, selected: false };
               }),
             });
+            this.timeseries.sort(
+              (a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name)
+            );
             this.timeseriesLoaded = Promise.resolve(true);
           },
           (error: any) => {
