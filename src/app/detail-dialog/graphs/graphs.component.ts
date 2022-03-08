@@ -82,18 +82,21 @@ export class GraphsComponent implements OnInit {
       exporting: {
         buttons: {
           contextButton: {
-            menuItems: ["printChart",
-                      "separator",
-                      "downloadPNG",
-                      "downloadJPEG",
-                      "downloadPDF",
-                      "downloadSVG",
-                      "separator",
-                      "downloadCSV",
-                      "downloadXLS"]
-        }
-      }},
-      
+            menuItems: [
+              'printChart',
+              'separator',
+              'downloadPNG',
+              'downloadJPEG',
+              'downloadPDF',
+              'downloadSVG',
+              'separator',
+              'downloadCSV',
+              'downloadXLS',
+            ],
+          },
+        },
+      },
+
       rangeSelector: {
         enabled: true,
         buttons: [
@@ -155,29 +158,27 @@ export class GraphsComponent implements OnInit {
   getTimeSeriesAvailable(dataset: string, timeStart: Date, timeEnd?: Date) {
     let dialogParam = this.data.item(0).get('dialog_par').split(',');
     dialogParam.map((param: string) => {
-        this.loading++;
-        this.erdappService.getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd).subscribe(
-          (response: number[]) => {
-            this.timeseries = this.timeseries.concat({
-              parameter: { name: param, type: DataType.TIME_SERIES },
-              series: response.map(depth => {
-                return { depth: depth, selected: false };
-              }),
-            });
-            this.timeseries.sort(
-              (a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name)
-            );
-            this.timeseriesLoaded = Promise.resolve(true);
-          },
-          (error: any) => {
-            this.loading--;
-            console.log(error);
-          },
-          () => {
-            this.loading--;
-          }
-        );
-      });
+      this.loading++;
+      this.erdappService.getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd).subscribe(
+        (response: number[]) => {
+          this.timeseries = this.timeseries.concat({
+            parameter: { name: param, type: DataType.TIME_SERIES },
+            series: response.map(depth => {
+              return { depth: depth, selected: false };
+            }),
+          });
+          this.timeseries.sort((a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name));
+          this.timeseriesLoaded = Promise.resolve(true);
+        },
+        (error: any) => {
+          this.loading--;
+          console.log(error);
+        },
+        () => {
+          this.loading--;
+        }
+      );
+    });
   }
 
   addSeries(dataset: string, parameter: Parameter, depth: number, timeStart: Date, timeEnd?: Date) {
