@@ -48,7 +48,7 @@ import { CacheService } from './cache.service';
     MatIconModule,
     MatToolbarModule,
     MatRadioModule,
-    NgxGoogleAnalyticsModule.forRoot('UA-143978851-2'),
+    NgxGoogleAnalyticsModule.forRoot('G-PH2B3YQD4B'),
     HttpClientModule,
     HighchartsChartModule,
     MatTabsModule,

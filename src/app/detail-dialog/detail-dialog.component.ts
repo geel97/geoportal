@@ -50,7 +50,6 @@ export class DetailDialogComponent implements OnInit, AfterViewInit {
               (a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name)
             );
             this.cardsMeasurement._updateChangeSubscription();
-            console.log(this.cardsMeasurement.data);
           },
           (error: any) => {
             this.loading--;

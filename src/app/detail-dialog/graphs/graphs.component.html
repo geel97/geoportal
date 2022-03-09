@@ -23,7 +23,10 @@
         >
           {{ this.vocabService.getMeasurementName(timeseries.parameter.name) }}
         </mat-checkbox>
-        <ng-container *ngIf="timeseries.series.length == 1 && timeseries.series[0].depth > 0"
+        <ng-container
+          *ngIf="
+            timeseries.series.length == 1 && timeseries.series[0].depth !== undefined && timeseries.series[0].depth > 0
+          "
           >{{ timeseries.series[0].depth }}m</ng-container
         >
       </span>

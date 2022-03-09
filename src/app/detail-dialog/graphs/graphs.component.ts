@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
-import { DataType, ErddapService, Parameter, Measurement } from '../../erddap.service';
+import { DataType, ErddapService, Parameter, Measurement, Axis } from '../../erddap.service';
 import { Options } from 'highcharts';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
@@ -14,7 +14,7 @@ HC_exportdata(Highcharts);
 interface TimeSeries {
   parameter: Parameter;
   series: {
-    depth: number;
+    depth: number | undefined;
     selected: boolean;
   }[];
 }
@@ -159,29 +159,36 @@ export class GraphsComponent implements OnInit {
     let dialogParam = this.data.item(0).get('dialog_par').split(',');
     dialogParam.map((param: string) => {
       this.loading++;
-      this.erdappService.getDepth(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd).subscribe(
-        (response: number[]) => {
-          this.timeseries = this.timeseries.concat({
-            parameter: { name: param, type: DataType.TIME_SERIES },
-            series: response.map(depth => {
-              return { depth: depth, selected: false };
-            }),
-          });
-          this.timeseries.sort((a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name));
-          this.timeseriesLoaded = Promise.resolve(true);
-        },
-        (error: any) => {
-          this.loading--;
-          console.log(error);
-        },
-        () => {
-          this.loading--;
-        }
-      );
+      this.erdappService
+        .getAxisLayers(dataset, { name: param, type: DataType.TIME_SERIES }, timeStart, timeEnd)
+        .subscribe(
+          (response: number[] | undefined) => {
+            this.timeseries = this.timeseries.concat({
+              parameter: { name: param, type: DataType.TIME_SERIES },
+              series:
+                response !== undefined
+                  ? response.map(depth => {
+                      return { depth: depth, selected: false };
+                    })
+                  : [{ depth: undefined, selected: false }],
+            });
+            this.timeseries.sort(
+              (a, b) => dialogParam.indexOf(a.parameter.name) - dialogParam.indexOf(b.parameter.name)
+            );
+            this.timeseriesLoaded = Promise.resolve(true);
+          },
+          (error: any) => {
+            this.loading--;
+            console.log(error);
+          },
+          () => {
+            this.loading--;
+          }
+        );
     });
   }
 
-  addSeries(dataset: string, parameter: Parameter, depth: number, timeStart: Date, timeEnd?: Date) {
+  addSeries(dataset: string, parameter: Parameter, depth: number | undefined, timeStart: Date, timeEnd?: Date) {
     let dataArray: number[][] = [];
     this.loading++;
     this.erdappService.getMeasurements(dataset, parameter, depth, timeStart, timeEnd).subscribe(
@@ -200,18 +207,20 @@ export class GraphsComponent implements OnInit {
               format: '{value} ' + measurementUnit,
             },
           });
-
-        this.chartRef.addSeries({
-          id: parameter.name + depth,
-          name: this.vocabService.getMeasurementName(parameter.name),
-          type: 'line',
-          yAxis: measurementUnit,
-          data: dataArray,
-          tooltip: {
-            valueDecimals: 2,
-            valueSuffix: measurementUnit,
-          },
-        });
+        if (!this.chartRef.get(parameter.name + depth))
+          // per evitare bug con selezioni multiple veloci
+          this.chartRef.addSeries({
+            id: parameter.name + depth,
+            name: this.vocabService.getMeasurementName(parameter.name),
+            type: 'line',
+            yAxis: measurementUnit,
+            data: dataArray,
+            tooltip: {
+              valueDecimals: 2,
+              valueSuffix: measurementUnit,
+            },
+          });
+        else (this.chartRef.get(parameter.name + depth) as Highcharts.Series).show(); // stessa cosa di sopra
       },
       (error: any) => {
         this.loading--;
