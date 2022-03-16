@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts/highstock';
-import { DataType, ErddapService, Parameter, Measurement, Axis } from '../../erddap.service';
+import { DataType, ErddapService, Parameter, Measurement } from 'src/app/services/erddap.service';
 import { Options } from 'highcharts';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
-import { VocabService } from '../../vocab.service';
+import { VocabService } from '../../services/vocab.service';
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_exportdata from 'highcharts/modules/export-data';
 HC_exporting(Highcharts);

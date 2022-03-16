@@ -25,8 +25,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
-import { CachingInterceptor } from './interceptors/cache-interceptor';
-import { CacheService } from './cache.service';
+import { CacheInterceptor } from './interceptors/cache.interceptor';
+import { CacheService } from './services/cache.service';
+import { DataTableComponent } from './detail-dialog/data-table/data-table.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CacheService } from './cache.service';
     DetailDialogComponent,
     AttributionsDialogComponent,
     GraphsComponent,
+    DataTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,7 @@ import { CacheService } from './cache.service';
     MatCheckboxModule,
     FormsModule,
   ],
-  providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true }],
+  providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

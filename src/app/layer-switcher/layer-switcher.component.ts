@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import BaseLayer from 'ol/layer/Base';
-import { LayersService } from '../layers.service';
+import { LayersService } from '../services/layers.service';
 
 @Component({
   selector: 'app-layer-switcher',

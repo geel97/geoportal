@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { VOCABS } from './mock-vocabs';
 
+export interface Vocab {
+  id: string;
+  measurementName: { locale: string; name: string }[];
+  measurementUnit: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })

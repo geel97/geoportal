@@ -1,4 +1,5 @@
-import { Vocab } from './vocab';
+import { Vocab } from './vocab.service';
+
 export var VOCABS: Vocab[] = [
   {
     id: 'VZMX',

@@ -1,4 +1,4 @@
-import { LayersService } from './../layers.service';
+import { LayersService } from '../services/layers.service';
 import { Component, OnInit } from '@angular/core';
 import { View, Map } from 'ol';
 import Select from 'ol/interaction/Select';
