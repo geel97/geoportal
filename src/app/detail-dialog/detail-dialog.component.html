@@ -4,13 +4,9 @@
 <div matDialogTitle><img src="assets/buoy.png" /> {{ this.data.item(0).get('name') }}</div>
 <mat-tab-group dynamicHeight>
   <mat-tab label="Latest data">
-    <ng-template matTabContent>
-      <app-data-table *ngIf="data" [data]="data"></app-data-table>
-    </ng-template>
+    <app-data-table *ngIf="data" [data]="data"></app-data-table>
   </mat-tab>
   <mat-tab label="Graphs">
-    <ng-template matTabContent>
-      <app-graphs *ngIf="data" [data]="data"></app-graphs>
-    </ng-template>
+    <app-graphs *ngIf="data" [data]="data"></app-graphs>
   </mat-tab>
 </mat-tab-group>
