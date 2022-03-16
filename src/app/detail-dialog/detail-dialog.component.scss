@@ -1,33 +1,7 @@
-.content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  max-width: 1000px;
-}
-
-.content mat-card {
-  flex-basis: 200px;
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-
-mat-card {
-  margin: 5px;
-}
-
 .close-button {
   float: right;
   top: -24px;
   right: -24px;
-}
-
-.mat-row {
-  height: auto;
-}
-
-.mat-cell {
-  padding: 8px 8px 8px 0;
 }
 
 mat-progress-bar {
