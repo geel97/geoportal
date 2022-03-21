@@ -343,11 +343,11 @@ export var VOCABS: Vocab[] = [
     measurementName: [
       {
         locale: 'en',
-        name: 'Sea temperature',
+        name: 'Water temperature',
       },
       {
         locale: 'it',
-        name: 'Temperatura del mare',
+        name: "Temperatura dell'acqua",
       },
     ],
     measurementUnit: '°C',
@@ -477,5 +477,19 @@ export var VOCABS: Vocab[] = [
       },
     ],
     measurementUnit: 'm/s',
+  },
+  {
+    id: 'RVFL',
+    measurementName: [
+      {
+        locale: 'en',
+        name: 'River flow rate',
+      },
+      {
+        locale: 'it',
+        name: 'Portata del fiume',
+      },
+    ],
+    measurementUnit: 'm³/s',
   },
 ];

@@ -93,13 +93,13 @@ export class LayersService {
             scale: 1.0,
           }),
         });
-        case 'current':
-          return new Style({
-            image: new Icon({
-              src: 'assets/sea_level.png',
-              scale: 1.0,
-            }),
-          });
+      case 'current':
+        return new Style({
+          image: new Icon({
+            src: 'assets/sea_level.png',
+            scale: 1.0,
+          }),
+        });
       default:
         return new Style({
           image: new Icon({
