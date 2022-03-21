@@ -60,7 +60,7 @@ export class LayersService {
     radar.set('name', 'Radar');
     this.layers.push(radar);
 
-    let buoy = new VectorLayer({
+    let stations = new VectorLayer({
       source: new VectorSource({
         url: function (extent) {
           return (
@@ -80,8 +80,8 @@ export class LayersService {
       }),
       style: this.styleFunction,
     });
-    buoy.set('name', 'Buoy');
-    this.layers.push(buoy);
+    stations.set('name', 'Stations');
+    this.layers.push(stations);
   }
 
   styleFunction: StyleFunction = (feature: FeatureLike, resolution: number) => {
