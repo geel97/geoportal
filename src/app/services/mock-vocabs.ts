@@ -266,7 +266,7 @@ export var VOCABS: Vocab[] = [
         name: 'Radiozioni',
       },
     ],
-    measurementUnit: 'W/m2',
+    measurementUnit: 'W/m²',
   },
   {
     id: 'LINC',
@@ -280,7 +280,7 @@ export var VOCABS: Vocab[] = [
         name: '**',
       },
     ],
-    measurementUnit: 'W/m2',
+    measurementUnit: 'W/m²',
   },
   {
     id: 'PCO2',
@@ -392,7 +392,7 @@ export var VOCABS: Vocab[] = [
         name: 'Radiazione attiva fotosintetica in entrata immersa',
       },
     ],
-    measurementUnit: 'µmol m-2 s-1',
+    measurementUnit: 'µmol/m²s',
   },
   {
     id: 'CPHL',
@@ -406,7 +406,7 @@ export var VOCABS: Vocab[] = [
         name: 'Clorofilla-a',
       },
     ],
-    measurementUnit: 'mg m-3',
+    measurementUnit: 'mg/m³',
   },
   {
     id: 'PSAL',
