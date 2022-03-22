@@ -10,6 +10,7 @@ import TileWMS from 'ol/source/TileWMS';
 import { FeatureLike } from 'ol/Feature';
 import { StyleFunction } from 'ol/style/Style';
 import BaseLayer from 'ol/layer/Base';
+import XYZ from 'ol/source/XYZ';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,16 @@ export class LayersService {
     bathymetry.set('base', true);
     bathymetry.setVisible(false);
     this.layers.push(bathymetry);
+
+    let esri = new TileLayer({
+      source: new XYZ({
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/' + 'World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      }),
+    });
+    esri.set('name', 'ESRI imagery');
+    esri.set('base', true);
+    esri.setVisible(false);
+    this.layers.push(esri);
 
     let radar = new TileLayer({
       source: new TileWMS({
