@@ -83,13 +83,6 @@ export class GraphsComponent implements OnInit {
         buttons: {
           contextButton: {
             menuItems: [
-              'printChart',
-              'separator',
-              'downloadPNG',
-              'downloadJPEG',
-              'downloadPDF',
-              'downloadSVG',
-              'separator',
               'downloadCSV',
               'downloadXLS',
             ],
@@ -138,7 +131,7 @@ export class GraphsComponent implements OnInit {
         ],
       },
       navigator: {
-        enabled: false,
+        enabled: true,
       },
       xAxis: {
         ordinal: false,
@@ -215,6 +208,7 @@ export class GraphsComponent implements OnInit {
             type: 'line',
             yAxis: measurementUnit,
             data: dataArray,
+            showInNavigator: true,
             tooltip: {
               valueDecimals: 2,
               valueSuffix: measurementUnit,

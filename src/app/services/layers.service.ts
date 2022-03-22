@@ -58,6 +58,7 @@ export class LayersService {
       })
     );
     radar.set('name', 'Radar');
+    radar.setVisible(false);
     this.layers.push(radar);
 
     let stations = new VectorLayer({
