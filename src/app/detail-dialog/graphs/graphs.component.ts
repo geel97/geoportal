@@ -82,10 +82,7 @@ export class GraphsComponent implements OnInit {
       exporting: {
         buttons: {
           contextButton: {
-            menuItems: [
-              'downloadCSV',
-              'downloadXLS',
-            ],
+            menuItems: ['downloadCSV', 'downloadXLS'],
           },
         },
       },
