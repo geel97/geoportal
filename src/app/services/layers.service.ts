@@ -49,11 +49,11 @@ export class LayersService {
 
     let radar = new TileLayer({
       source: new TileWMS({
-        url: 'https://thredds.emodnet-physics.eu/thredds/wms/fmrc/GOTlast60days/GOT_Last_60_Days_GOT_HFRadar',
+        url: 'https://dsecho.ogs.it/thredds/wms/radar/NAdr-radar/aggregate.nc',
         params: {
-          LAYERS: 'sea_water_velocity',
+          LAYERS: 'ewct:nsct-group',
           TILED: true,
-          STYLES: 'prettyvec/rainbow',
+          STYLES: 'colored_sized_arrows/x-Rainbow',
           COLORSCALERANGE: '0, 0.4',
           ABOVEMAXCOLOR: 'extend',
           BELOWMINCOLOR: 'extend',
@@ -65,6 +65,7 @@ export class LayersService {
       (radar.getSource() as TileWMS).getLegendUrl(undefined, {
         TRANSPARENT: true,
         COLORSCALERANGE: '0, 0.4',
+        STYLES: 'vector_arrows/x-Rainbow',
         bgcolor: '0xFFFFFF',
       })
     );
