@@ -7,6 +7,7 @@ import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component'
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
 import { easeOut } from 'ol/easing';
 import BaseLayer from 'ol/layer/Base';
+import Layer from 'ol/layer/Layer';
 
 @Component({
   selector: 'app-ol-map',
@@ -21,6 +22,9 @@ export class OlMapComponent implements OnInit {
   constructor(service: LayersService, private matDialog: MatDialog) {
     this.layers = service.layers;
     this.select = new Select({
+      layers: (layer: Layer<any>) => {
+        return layer.get('detail-dialog');
+      },
       style: service.styleFunction,
     });
   }

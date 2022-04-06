@@ -11,6 +11,7 @@ import { FeatureLike } from 'ol/Feature';
 import { StyleFunction } from 'ol/style/Style';
 import BaseLayer from 'ol/layer/Base';
 import XYZ from 'ol/source/XYZ';
+import LayerGroup from 'ol/layer/Group';
 
 @Injectable({
   providedIn: 'root',
@@ -47,7 +48,7 @@ export class LayersService {
     esri.setVisible(false);
     this.layers.push(esri);
 
-    let radar = new TileLayer({
+    let radarArrows = new TileLayer({
       source: new TileWMS({
         url: 'https://dsecho.ogs.it/thredds/wms/radar/NAdr-radar/aggregate.nc',
         params: {
@@ -60,9 +61,37 @@ export class LayersService {
         },
       }),
     });
+    let radarPoints = new VectorLayer({
+      source: new VectorSource({
+        url: function (extent) {
+          return (
+            'https://nodc.ogs.it/geoserver/Geoportal/ows' +
+            '?service=WFS' +
+            '&version=1.0.0' +
+            '&request=GetFeature' +
+            '&typeName=Geoportal:geoportal_radar' +
+            '&outputFormat=application/json&srsname=EPSG:3857&' +
+            'bbox=' +
+            extent.join(',') +
+            ',EPSG:3857'
+          );
+        },
+        strategy: bboxStrategy,
+        format: new GeoJSON(),
+      }),
+      style: new Style({
+        image: new Icon({
+          src: 'assets/radar.png',
+          scale: 1.0,
+        }),
+      }),
+    });
+    let radar = new LayerGroup({
+      layers: [radarArrows, radarPoints],
+    });
     radar.set(
       'legendUrl',
-      (radar.getSource() as TileWMS).getLegendUrl(undefined, {
+      (radarArrows.getSource() as TileWMS).getLegendUrl(undefined, {
         TRANSPARENT: true,
         COLORSCALERANGE: '0, 0.4',
         STYLES: 'vector_arrows/x-Rainbow',
@@ -70,7 +99,6 @@ export class LayersService {
       })
     );
     radar.set('name', 'Radar');
-    radar.setVisible(false);
     this.layers.push(radar);
 
     let stations = new VectorLayer({
@@ -94,6 +122,7 @@ export class LayersService {
       style: this.styleFunction,
     });
     stations.set('name', 'Stations');
+    stations.set('detail-dialog', true);
     this.layers.push(stations);
   }
 
