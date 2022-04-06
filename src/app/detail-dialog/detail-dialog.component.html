@@ -1,7 +1,10 @@
 <button mat-icon-button mat-dialog-close class="close-button">
   <mat-icon>close</mat-icon>
 </button>
-<div matDialogTitle>{{ this.data.item(0).get('name') }}</div>
+<div matDialogTitle>
+  {{ this.data.item(0).get('name') }}
+  <i>{{ this.data.item(0).get('type_name') }}</i>
+</div>
 <mat-tab-group dynamicHeight>
   <mat-tab label="Latest data">
     <app-data-table *ngIf="data" [data]="data"></app-data-table>
