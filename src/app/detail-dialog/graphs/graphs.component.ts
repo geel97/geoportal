@@ -130,11 +130,31 @@ export class GraphsComponent implements OnInit {
       navigator: {
         enabled: true,
       },
+      scrollbar: {
+        enabled: true,
+      },
+      legend: {
+        enabled: false,
+      },
       xAxis: {
         ordinal: false,
         type: 'datetime',
         title: {
-          text: 'Date',
+          text: undefined,
+        },
+        crosshair: true,
+      },
+      yAxis: {
+        title: {
+          text: undefined,
+        },
+      },
+      tooltip: {
+        split: true,
+      },
+      plotOptions: {
+        line: {
+          marker: { enabled: false },
         },
       },
       series: [],
@@ -193,6 +213,10 @@ export class GraphsComponent implements OnInit {
             id: measurementUnit,
             type: 'linear',
             showEmpty: false,
+            title: {
+              text: undefined,
+            },
+            opposite: true,
             labels: {
               format: '{value} ' + measurementUnit,
             },
@@ -206,9 +230,12 @@ export class GraphsComponent implements OnInit {
             yAxis: measurementUnit,
             data: dataArray,
             showInNavigator: true,
+            dataGrouping: {
+              enabled: true,
+            },
             tooltip: {
               valueDecimals: 2,
-              valueSuffix: measurementUnit,
+              valueSuffix: ' ' + measurementUnit,
             },
           });
         else (this.chartRef.get(parameter.name + depth) as Highcharts.Series).show(); // stessa cosa di sopra
