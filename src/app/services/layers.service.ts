@@ -92,12 +92,14 @@ export class LayersService {
     radar.set(
       'legendUrl',
       (radarArrows.getSource() as TileWMS).getLegendUrl(undefined, {
-        TRANSPARENT: true,
-        COLORSCALERANGE: '0, 0.4',
-        STYLES: 'vector_arrows/x-Rainbow',
-        bgcolor: '0xFFFFFF',
+        COLORBARONLY: true,
+        PALETTE: 'x-Rainbow',
+        WIDTH: 25,
+        HEIGHT: 150,
       })
     );
+    radar.set('legendRange', [0, 0.4]);
+    radar.set('legendUnit', 'm/s');
     radar.set('name', 'Radar');
     this.layers.push(radar);
 

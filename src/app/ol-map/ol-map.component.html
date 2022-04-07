@@ -12,7 +12,25 @@
   <ng-container *ngFor="let layer of layers">
     <ng-container *ngIf="layer.get('legendUrl') != undefined">
       <mat-card class="legend-card" *ngIf="layer.getVisible()">
-        <img mat-card-image class="legend-image" [src]="layer.get('legendUrl')" />
+        <div class="legend-bar">
+          <div class="legend-image">
+            <img [src]="layer.get('legendUrl')" />
+          </div>
+          <div class="legend-labels">
+            <ul>
+              <li>
+                <span>{{ layer.get('legendRange')[1] }}</span>
+              </li>
+              <li>
+                <span>{{ layer.get('legendRange')[1] / 2 }}</span>
+              </li>
+              <li>
+                <span>{{ layer.get('legendRange')[0] }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="legend-unit">{{ layer.get('legendUnit') }}</div>
       </mat-card>
     </ng-container>
   </ng-container>
