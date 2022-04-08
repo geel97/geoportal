@@ -1,3 +1,5 @@
+import Geometry from 'ol/geom/Geometry';
+import WMSCapabilities from 'ol/format/WMSCapabilities';
 import { Injectable } from '@angular/core';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
@@ -7,11 +9,15 @@ import { bbox as bboxStrategy } from 'ol/loadingstrategy';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import TileWMS from 'ol/source/TileWMS';
-import { FeatureLike } from 'ol/Feature';
+import Feature, { FeatureLike } from 'ol/Feature';
 import { StyleFunction } from 'ol/style/Style';
 import BaseLayer from 'ol/layer/Base';
 import XYZ from 'ol/source/XYZ';
 import LayerGroup from 'ol/layer/Group';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import Stroke from 'ol/style/Stroke';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +25,7 @@ import LayerGroup from 'ol/layer/Group';
 export class LayersService {
   layers: BaseLayer[] = [];
 
-  constructor() {
+  constructor(private http: HttpClient) {
     let osm = new TileLayer({
       source: new OSM(),
     });
@@ -48,6 +54,38 @@ export class LayersService {
     esri.setVisible(false);
     this.layers.push(esri);
 
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    let argoPoints = new VectorLayer({
+      source: new VectorSource({
+        url:
+          'http://maosapi.ogs.it/v0.1/time-markers-def' +
+          '?nationality=ITALY' +
+          '&type=drifter,float,glider' +
+          '&date_from=' +
+          yesterday.toISOString().substring(0, 10),
+        format: new GeoJSON(),
+      }),
+      style: this.styleArgo,
+    });
+    argoPoints.set('click', true);
+
+    let argoTrajectory = new VectorLayer({
+      source: new VectorSource(),
+      style: feature => {
+        return new Style({
+          stroke: new Stroke({
+            color: feature.get('stroke'),
+          }),
+        });
+      },
+    });
+    let argo = new LayerGroup({
+      layers: [argoTrajectory, argoPoints],
+    });
+    argo.set('name', 'Argo');
+    this.layers.push(argo);
+
     let radarArrows = new TileLayer({
       source: new TileWMS({
         url: 'https://dsecho.ogs.it/thredds/wms/radar/NAdr-radar/aggregate.nc',
@@ -61,6 +99,24 @@ export class LayersService {
         },
       }),
     });
+    fetch(radarArrows.getSource().getUrls()[0] + '?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0')
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (text) {
+        let result = new WMSCapabilities().read(text);
+        let times =
+          result.Capability.Layer.Layer[0].Layer[3].Layer[0].Dimension[0].values.split(
+            ','
+          ); /*.find(({Name}:any)=>Name === 'ewct:nsct-group')
+        /*.map((layer: any) => {
+          layer.filter((layer2: any)=> {
+
+          })
+        })    /*.filter((layer: any)=>{ return (typeof layer.Layer === undefined) })/*.Layer[3].Layer[0].Dimension*/
+        radar.set('times', times);
+        //console.log(times);
+      });
     let radarPoints = new VectorLayer({
       source: new VectorSource({
         url: function (extent) {
@@ -153,4 +209,44 @@ export class LayersService {
         });
     }
   };
+
+  styleArgo: StyleFunction = (feature: FeatureLike, resolution: number) => {
+    switch (feature.get('type')) {
+      case 'drifter':
+        return new Style({
+          image: new Icon({
+            src: 'assets/drifter.png',
+            scale: 0.5,
+          }),
+        });
+      case 'float':
+        return new Style({
+          image: new Icon({
+            src: 'assets/float.png',
+            scale: 0.8,
+          }),
+        });
+      case 'glider':
+        return new Style({
+          image: new Icon({
+            src: 'assets/glider.png',
+            scale: 0.8,
+          }),
+        });
+      default:
+        return undefined;
+    }
+  };
+
+  getArgoTrejectory(type: string, id: number): Observable<Feature<Geometry>> {
+    let url = 'http://maosapi.ogs.it/v0.1/trajectory?' + 'type=' + type + '&id=' + id;
+
+    return this.http.get(url).pipe(
+      map((result: any) => {
+        let feature = new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(result)[0];
+        feature.setId(id);
+        return feature;
+      })
+    );
+  }
 }
