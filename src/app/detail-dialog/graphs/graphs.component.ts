@@ -8,6 +8,7 @@ import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../../services/vocab.service';
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_exportdata from 'highcharts/modules/export-data';
+import { DateFunctions } from 'src/app/app.misc';
 HC_exporting(Highcharts);
 HC_exportdata(Highcharts);
 
@@ -52,10 +53,10 @@ export class GraphsComponent implements OnInit {
         if (series.selected)
           if (!this.chartRef.get(timeseries.parameter.name + series.depth))
             this.addSeries(
-              this.data.item(0).get('name'),
+              this.data.get('name'),
               timeseries.parameter,
               series.depth,
-              this.daysAgoMidnightUTC(120)
+              DateFunctions.daysAgoMidnightUTC(120)
             );
           else (this.chartRef.get(timeseries.parameter.name + series.depth) as Highcharts.Series).show();
         else if (this.chartRef.get(timeseries.parameter.name + series.depth))
@@ -162,11 +163,11 @@ export class GraphsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTimeSeriesAvailable(this.data.item(0).get('name'), this.daysAgoMidnightUTC(120));
+    this.getTimeSeriesAvailable(this.data.get('name'), DateFunctions.daysAgoMidnightUTC(120));
   }
 
   getTimeSeriesAvailable(dataset: string, timeStart: Date, timeEnd?: Date) {
-    let dialogParam = this.data.item(0).get('dialog_par').split(',');
+    let dialogParam = this.data.get('dialog_par').split(',');
     dialogParam.map((param: string) => {
       this.loading++;
       this.erdappService
@@ -252,16 +253,5 @@ export class GraphsComponent implements OnInit {
       }
     );
     return dataArray;
-  }
-
-  midnightUTC(): Date {
-    let date = new Date();
-    date.setHours(0, 0, 0, 0);
-    return date;
-  }
-  daysAgoMidnightUTC(days: number): Date {
-    let date = this.midnightUTC();
-    date.setDate(date.getDate() - days);
-    return date;
   }
 }

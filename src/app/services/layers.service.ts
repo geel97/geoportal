@@ -18,14 +18,19 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import Stroke from 'ol/style/Stroke';
+import { Interaction, defaults, Select } from 'ol/interaction';
+import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DateFunctions } from '../app.misc';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayersService {
   layers: BaseLayer[] = [];
+  interactions: Interaction[] = defaults().getArray();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private matDialog: MatDialog) {
     let osm = new TileLayer({
       source: new OSM(),
     });
@@ -54,8 +59,6 @@ export class LayersService {
     esri.setVisible(false);
     this.layers.push(esri);
 
-    let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
     let argoPoints = new VectorLayer({
       source: new VectorSource({
         url:
@@ -63,12 +66,12 @@ export class LayersService {
           '?nationality=ITALY' +
           '&type=drifter,float,glider' +
           '&date_from=' +
-          yesterday.toISOString().substring(0, 10),
+          DateFunctions.daysAgoMidnightUTC(30).toISOString().substring(0, 10),
         format: new GeoJSON(),
       }),
-      style: this.styleArgo,
+      style: this.styleByType,
     });
-    argoPoints.set('click', true);
+    argoPoints.set('selectable', true);
 
     let argoTrajectory = new VectorLayer({
       source: new VectorSource(),
@@ -84,7 +87,29 @@ export class LayersService {
       layers: [argoTrajectory, argoPoints],
     });
     argo.set('name', 'Argo');
-    this.layers.push(argo);
+    //this.layers.push(argo);
+
+    let argoSelect = new Select({
+      layers: [argoPoints],
+      style: this.styleByType,
+    });
+    argoSelect.on('select', e => {
+      let argoTrajectorySource = argoTrajectory.getSource()!;
+      e.selected.forEach((feature: Feature<any>) => {
+        if (argoTrajectorySource.getFeatureById(feature.get('id')) === null)
+          this.getArgoTrejectory(feature.get('type'), feature.get('id')).subscribe(
+            (response: Feature<Geometry>) => {
+              argoTrajectorySource.addFeature(response);
+            },
+            (error: any) => {
+              console.log(error);
+            }
+          );
+        else argoTrajectorySource.removeFeature(argoTrajectorySource.getFeatureById(feature.get('id'))!);
+      });
+      argoSelect.getFeatures().clear();
+    });
+    //this.interactions.push(argoSelect);
 
     let radarArrows = new TileLayer({
       source: new TileWMS({
@@ -99,7 +124,7 @@ export class LayersService {
         },
       }),
     });
-    fetch(radarArrows.getSource().getUrls()[0] + '?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0')
+    fetch(radarArrows.getSource()!.getUrls()?.[0] + '?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0')
       .then(function (response) {
         return response.text();
       })
@@ -177,14 +202,29 @@ export class LayersService {
         strategy: bboxStrategy,
         format: new GeoJSON(),
       }),
-      style: this.styleFunction,
+      style: this.styleByType,
     });
     stations.set('name', 'Stations');
-    stations.set('detail-dialog', true);
+    stations.set('selectable', true);
     this.layers.push(stations);
+
+    let stationsSelect = new Select({
+      layers: [stations],
+      style: this.styleByType,
+    });
+    stationsSelect.on('select', e => {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.data = e.selected[0];
+      const modalDialog = this.matDialog.open(DetailDialogComponent, dialogConfig);
+      modalDialog.afterClosed().subscribe(() => {
+        stationsSelect.getFeatures().clear();
+      });
+    });
+    this.interactions.push(stationsSelect);
   }
 
-  styleFunction: StyleFunction = (feature: FeatureLike, resolution: number) => {
+  styleByType: StyleFunction = (feature: FeatureLike, resolution: number) => {
     switch (feature.get('type')) {
       case 'buoy':
         return new Style({
@@ -200,18 +240,13 @@ export class LayersService {
             scale: 1.0,
           }),
         });
-      default:
+      case 'waverider':
         return new Style({
           image: new Icon({
-            src: 'assets/buoy.png',
+            src: 'assets/station.png',
             scale: 1.0,
           }),
         });
-    }
-  };
-
-  styleArgo: StyleFunction = (feature: FeatureLike, resolution: number) => {
-    switch (feature.get('type')) {
       case 'drifter':
         return new Style({
           image: new Icon({
@@ -231,6 +266,13 @@ export class LayersService {
           image: new Icon({
             src: 'assets/glider.png',
             scale: 0.8,
+          }),
+        });
+      case 'radar':
+        return new Style({
+          image: new Icon({
+            src: 'assets/radar.png',
+            scale: 0.5,
           }),
         });
       default:

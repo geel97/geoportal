@@ -9,7 +9,7 @@
   </div>
 </div>
 <div class="bottom-block">
-  <ng-container *ngFor="let layer of layers">
+  <ng-container *ngFor="let layer of layersService.layers">
     <ng-container *ngIf="layer.get('legendUrl') != undefined">
       <mat-card class="legend-card" *ngIf="layer.getVisible()">
         <div class="legend-bar">
