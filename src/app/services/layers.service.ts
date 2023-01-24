@@ -87,7 +87,7 @@ export class LayersService {
       layers: [argoTrajectory, argoPoints],
     });
     argo.set('name', 'Argo');
-    //this.layers.push(argo);
+    this.layers.push(argo);
 
     let argoSelect = new Select({
       layers: [argoPoints],
@@ -109,7 +109,7 @@ export class LayersService {
       });
       argoSelect.getFeatures().clear();
     });
-    //this.interactions.push(argoSelect);
+    this.interactions.push(argoSelect);
 
     let radarArrows = new TileLayer({
       source: new TileWMS({
