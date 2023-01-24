@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
-import { NgxGoogleAnalyticsModule } from 'ngx-google-analytics';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GraphsComponent } from './detail-dialog/graphs/graphs.component';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -50,7 +49,6 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
     MatIconModule,
     MatToolbarModule,
     MatRadioModule,
-    NgxGoogleAnalyticsModule.forRoot('G-PH2B3YQD4B'),
     HttpClientModule,
     HighchartsChartModule,
     MatTabsModule,
