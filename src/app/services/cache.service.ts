@@ -8,7 +8,9 @@ interface Cache {
 
 const MAX_CACHE_AGE = 5 * 60 * 1000; // 5 minuti
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CacheService {
   cacheMap = new Map<string, Cache>();
 

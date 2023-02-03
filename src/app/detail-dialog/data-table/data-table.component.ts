@@ -4,7 +4,6 @@ import { VocabService } from 'src/app/services/vocab.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { DateFunctions } from 'src/app/app.misc';
@@ -16,7 +15,7 @@ import { DateFunctions } from 'src/app/app.misc';
 })
 export class DataTableComponent implements OnInit {
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {}
-  @Input() data!: Collection<Feature<Geometry>>;
+  @Input() data!: Feature<Geometry>;
 
   @ViewChild(MatSort)
   sort!: MatSort;

@@ -65,7 +65,7 @@ export class GraphsComponent implements OnInit {
     });
   }
 
-  @Input() data!: Collection<Feature<Geometry>>;
+  @Input() data!: Feature<Geometry>;
   chartOptions: Options;
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {
     this.chartOptions = {
