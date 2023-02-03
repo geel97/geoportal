@@ -43,8 +43,8 @@ jobs:
         run: |
           npm ci
           npm run ng -- build --base-href /geoportal/
-     #- name: Test on Chrome
-     #  run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+      - name: Test on Chrome
+        run: npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
