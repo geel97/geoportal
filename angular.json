@@ -97,5 +97,7 @@
       }
     }
   },
-  "defaultProject": "geoportal"
+  "cli": {
+    "analytics": "539b2ceb-42dd-4fa0-83ef-592adf4b7d96"
+  }
 }
