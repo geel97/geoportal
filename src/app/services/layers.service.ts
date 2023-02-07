@@ -63,8 +63,7 @@ export class LayersService {
       source: new VectorSource({
         url:
           'http://maosapi.ogs.it/v0.1/time-markers-def' +
-          '?nationality=ITALY' +
-          '&type=drifter,float,glider' +
+          '?type=drifter,float,glider' +
           '&date_from=' +
           DateFunctions.daysAgoMidnightUTC(30).toISOString().substring(0, 10),
         format: new GeoJSON(),
