@@ -19,4 +19,8 @@ export class DetailDialogComponent {
   closeModal() {
     this.dialogRef.close();
   }
+
+  isString(obj: any): boolean {
+    return typeof obj === 'string';
+  }
 }
