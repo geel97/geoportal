@@ -8,9 +8,11 @@ import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../../services/vocab.service';
 import HC_exporting from 'highcharts/modules/exporting';
 import HC_exportdata from 'highcharts/modules/export-data';
+import HC_accessibility from 'highcharts/modules/accessibility';
 import { DateFunctions } from 'src/app/app.misc';
 HC_exporting(Highcharts);
 HC_exportdata(Highcharts);
+HC_accessibility(Highcharts);
 
 interface TimeSeries {
   parameter: Parameter;
