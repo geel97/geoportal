@@ -91,7 +91,8 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["node_modules/ol/ol.css", "src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "codeCoverage": true
           }
         }
       }
