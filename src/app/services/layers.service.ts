@@ -62,7 +62,7 @@ export class LayersService {
     let argoPoints = new VectorLayer({
       source: new VectorSource({
         url:
-          'http://maosapi.ogs.it/v0.1/time-markers-def' +
+          'https://maosapi.ogs.it/v0.1/time-markers-def' +
           '?type=drifter,float,glider' +
           '&date_from=' +
           DateFunctions.daysAgoMidnightUTC(30).toISOString().substring(0, 10),
@@ -280,7 +280,7 @@ export class LayersService {
   };
 
   getArgoTrejectory(type: string, id: number): Observable<Feature<Geometry>> {
-    let url = 'http://maosapi.ogs.it/v0.1/trajectory?' + 'type=' + type + '&id=' + id;
+    let url = 'https://maosapi.ogs.it/v0.1/trajectory?' + 'type=' + type + '&id=' + id;
 
     return this.http.get(url).pipe(
       map((result: any) => {
