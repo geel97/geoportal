@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LayersService } from './layers.service';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -8,8 +8,9 @@ describe('LayersService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, MatDialogModule],
-    });
+    imports: [MatDialogModule],
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+});
     service = TestBed.inject(LayersService);
   });
 

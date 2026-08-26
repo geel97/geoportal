@@ -12,14 +12,14 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$geoportal-primary: mat.define-palette(mat.$blue-palette, 900);
-$geoportal-accent: mat.define-palette(mat.$blue-palette);
+$geoportal-primary: mat.m2-define-palette(mat.$m2-blue-palette, 900);
+$geoportal-accent: mat.m2-define-palette(mat.$m2-blue-palette);
 // The warn palette is optional (defaults to red).
-$geoportal-warn: mat.define-palette(mat.$red-palette);
+$geoportal-warn: mat.m2-define-palette(mat.$m2-red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$geoportal-theme: mat.define-light-theme(
+$geoportal-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $geoportal-primary,

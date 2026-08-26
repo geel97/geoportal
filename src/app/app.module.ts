@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { GraphsComponent } from './detail-dialog/graphs/graphs.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -28,38 +28,31 @@ import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { CacheService } from './services/cache.service';
 import { DataTableComponent } from './detail-dialog/data-table/data-table.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    OlMapComponent,
-    LayerSwitcherComponent,
-    DetailDialogComponent,
-    AttributionsDialogComponent,
-    GraphsComponent,
-    DataTableComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatCardModule,
-    MatSlideToggleModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatRadioModule,
-    HttpClientModule,
-    HighchartsChartModule,
-    MatTabsModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatCheckboxModule,
-    FormsModule,
-  ],
-  providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        OlMapComponent,
+        LayerSwitcherComponent,
+        DetailDialogComponent,
+        AttributionsDialogComponent,
+        GraphsComponent,
+        DataTableComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatCardModule,
+        MatSlideToggleModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatRadioModule,
+        HighchartsChartModule,
+        MatTabsModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatCheckboxModule,
+        FormsModule], providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
