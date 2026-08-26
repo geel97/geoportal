@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AttributionsDialogComponent } from './attributions-dialog/attributions-dialog.component';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { GraphsComponent } from './detail-dialog/graphs/graphs.component';
-import { HighchartsChartModule } from 'highcharts-angular';
+import { HighchartsChartComponent, provideHighcharts } from 'highcharts-angular';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -47,12 +47,19 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
         MatIconModule,
         MatToolbarModule,
         MatRadioModule,
-        HighchartsChartModule,
+        HighchartsChartComponent,
         MatTabsModule,
         MatTableModule,
         MatSortModule,
         MatPaginatorModule,
         MatProgressBarModule,
         MatCheckboxModule,
-        FormsModule], providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi())] })
+        FormsModule], providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi()), provideHighcharts({
+            instance: () => import('highcharts/esm/highstock').then(m => m.default),
+            modules: () => [
+                import('highcharts/esm/modules/exporting'),
+                import('highcharts/esm/modules/export-data'),
+                import('highcharts/esm/modules/accessibility'),
+            ],
+        })] })
 export class AppModule {}

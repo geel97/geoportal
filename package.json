@@ -20,9 +20,9 @@
     "@angular/platform-browser": "^19.2.25",
     "@angular/platform-browser-dynamic": "^19.2.25",
     "@angular/router": "^19.2.25",
-    "highcharts": "^10.3.0",
-    "highcharts-angular": "^3.0.0",
-    "ol": "^7.2.0",
+    "highcharts": "^13.0.1",
+    "highcharts-angular": "^5.4.1",
+    "ol": "^10.10.0",
     "rxjs": "^7.8.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.15.1"

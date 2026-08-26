@@ -1,18 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as Highcharts from 'highcharts/highstock';
+import type * as Highcharts from 'highcharts';
+import type { ChartConstructorType } from 'highcharts-angular';
 import { DataType, ErddapService, Parameter, Measurement } from 'src/app/services/erddap.service';
 import { Options } from 'highcharts';
 import Collection from 'ol/Collection';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../../services/vocab.service';
-import HC_exporting from 'highcharts/modules/exporting';
-import HC_exportdata from 'highcharts/modules/export-data';
-import HC_accessibility from 'highcharts/modules/accessibility';
 import { DateFunctions } from 'src/app/app.misc';
-HC_exporting(Highcharts);
-HC_exportdata(Highcharts);
-HC_accessibility(Highcharts);
 
 interface TimeSeries {
   parameter: Parameter;
@@ -29,13 +24,13 @@ interface TimeSeries {
     standalone: false
 })
 export class GraphsComponent implements OnInit {
-  Highcharts: typeof Highcharts = Highcharts;
+  chartConstructor: ChartConstructorType = 'stockChart';
   updateFlag = false;
   loading = 0;
   chartRef!: Highcharts.Chart;
   timeseries: TimeSeries[] = [];
   timeseriesLoaded!: Promise<boolean>;
-  chartCallback: Highcharts.ChartCallbackFunction = chart => {
+  onChartInstance(chart: Highcharts.Chart) {
     this.chartRef = chart;
   };
 
@@ -81,7 +76,8 @@ export class GraphsComponent implements OnInit {
         },
       },
       time: {
-        useUTC: false,
+        // useUTC is deprecated as of Highcharts 12; timezone: undefined has the same effect as useUTC: false
+        timezone: undefined,
       },
       exporting: {
         buttons: {
