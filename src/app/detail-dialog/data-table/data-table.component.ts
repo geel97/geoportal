@@ -9,9 +9,10 @@ import Geometry from 'ol/geom/Geometry';
 import { DateFunctions } from 'src/app/app.misc';
 
 @Component({
-  selector: 'app-data-table',
-  templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.scss'],
+    selector: 'app-data-table',
+    templateUrl: './data-table.component.html',
+    styleUrls: ['./data-table.component.scss'],
+    standalone: false
 })
 export class DataTableComponent implements OnInit {
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {}

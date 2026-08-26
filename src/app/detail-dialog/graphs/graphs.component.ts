@@ -23,9 +23,10 @@ interface TimeSeries {
 }
 
 @Component({
-  selector: 'app-graphs',
-  templateUrl: './graphs.component.html',
-  styleUrls: ['./graphs.component.scss'],
+    selector: 'app-graphs',
+    templateUrl: './graphs.component.html',
+    styleUrls: ['./graphs.component.scss'],
+    standalone: false
 })
 export class GraphsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-attributions-dialog',
-  templateUrl: './attributions-dialog.component.html',
-  styleUrls: ['./attributions-dialog.component.scss'],
+    selector: 'app-attributions-dialog',
+    templateUrl: './attributions-dialog.component.html',
+    styleUrls: ['./attributions-dialog.component.scss'],
+    standalone: false
 })
 export class AttributionsDialogComponent {
   constructor() {}

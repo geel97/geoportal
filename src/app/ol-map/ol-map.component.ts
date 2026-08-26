@@ -7,9 +7,10 @@ import { easeOut } from 'ol/easing';
 import Layer from 'ol/layer/Layer';
 
 @Component({
-  selector: 'app-ol-map',
-  templateUrl: './ol-map.component.html',
-  styleUrls: ['./ol-map.component.scss'],
+    selector: 'app-ol-map',
+    templateUrl: './ol-map.component.html',
+    styleUrls: ['./ol-map.component.scss'],
+    standalone: false
 })
 export class OlMapComponent implements OnInit {
   map!: Map;

@@ -5,9 +5,10 @@ import BaseLayer from 'ol/layer/Base';
 import { LayersService } from '../services/layers.service';
 
 @Component({
-  selector: 'app-layer-switcher',
-  templateUrl: './layer-switcher.component.html',
-  styleUrls: ['./layer-switcher.component.scss'],
+    selector: 'app-layer-switcher',
+    templateUrl: './layer-switcher.component.html',
+    styleUrls: ['./layer-switcher.component.scss'],
+    standalone: false
 })
 export class LayerSwitcherComponent {
   layers: BaseLayer[];

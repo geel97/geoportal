@@ -5,9 +5,10 @@ import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../services/vocab.service';
 
 @Component({
-  selector: 'app-detail-dialog',
-  templateUrl: './detail-dialog.component.html',
-  styleUrls: ['./detail-dialog.component.scss'],
+    selector: 'app-detail-dialog',
+    templateUrl: './detail-dialog.component.html',
+    styleUrls: ['./detail-dialog.component.scss'],
+    standalone: false
 })
 export class DetailDialogComponent {
   constructor(
