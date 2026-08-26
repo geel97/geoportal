@@ -36,7 +36,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "1mb",
-                  "maximumError": "2mb"
+                  "maximumError": "2.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "geoportal:build:production"
+              "buildTarget": "geoportal:build:production"
             },
             "development": {
-              "browserTarget": "geoportal:build:development"
+              "buildTarget": "geoportal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "geoportal:build"
+            "buildTarget": "geoportal:build"
           }
         },
         "test": {

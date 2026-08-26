@@ -20,7 +20,7 @@ import { map } from 'rxjs/operators';
 import Stroke from 'ol/style/Stroke';
 import { Interaction, defaults, Select } from 'ol/interaction';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogConfig as MatDialogConfig } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DateFunctions } from '../app.misc';
 
 @Injectable({
