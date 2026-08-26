@@ -1,7 +1,7 @@
 import { LayersService } from '../services/layers.service';
 import { Component, OnInit } from '@angular/core';
 import { View, Map } from 'ol';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
 import { easeOut } from 'ol/easing';
 import Layer from 'ol/layer/Layer';
