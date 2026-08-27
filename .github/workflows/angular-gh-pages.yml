@@ -39,11 +39,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - name: Build with Angular
+      - name: Build
         run: |
           npm ci
           npm run ng -- build --base-href /geoportal/
-      - name: Test on Chrome
+      - name: Test
         run: npm test -- --no-watch --no-progress
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
