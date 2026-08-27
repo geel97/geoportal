@@ -1,7 +1,9 @@
-<button class="collapse-button" mat-mini-fab *ngIf="this.isCollapsed" (click)="this.isCollapsed = false">
+@if (this.isCollapsed) {
+<button class="collapse-button" mat-mini-fab (click)="this.isCollapsed = false">
   <mat-icon>layers</mat-icon>
 </button>
-<mat-card class="layer-switcher" *ngIf="!this.isCollapsed">
+} @if (!this.isCollapsed) {
+<mat-card class="layer-switcher">
   <button class="close-button" mat-icon-button (click)="this.isCollapsed = true">
     <mat-icon>close</mat-icon>
   </button>
@@ -9,32 +11,33 @@
     <mat-card-subtitle>Layers</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div *ngFor="let layer of layers; let i = index">
-      <ng-container *ngIf="!layer.get('base')">
-        <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">
-          {{ layer.get('name') }}</mat-slide-toggle
-        >
-      </ng-container>
+    @for (layer of layers; track layer; let i = $index) {
+    <div>
+      @if (!layer.get('base')) {
+      <mat-slide-toggle type="checkbox" [checked]="layer.getVisible()" (change)="onChange($event, i)">
+        {{ layer.get('name') }}</mat-slide-toggle
+      >
+      }
     </div>
+    }
   </mat-card-content>
-  <ng-container *ngIf="layers.filter(isBaseLayer).length > 1">
-    <mat-card-header>
-      <mat-card-subtitle>Base layers</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-radio-group aria-label="Select a base layer" (change)="onChangeBaseLayer($event)">
-        <ng-container *ngFor="let layer of layers; let i = index">
-          <ng-container *ngIf="layer.get('base')">
-            <mat-radio-button
-              type="checkbox"
-              [checked]="layer.getVisible()"
-              value="{{ i }}"
-              (change)="onChangeBaseLayer($event)"
-              >{{ layer.get('name') }}</mat-radio-button
-            >
-          </ng-container>
-        </ng-container>
-      </mat-radio-group>
-    </mat-card-content>
-  </ng-container>
+  @if (layers.filter(isBaseLayer).length > 1) {
+  <mat-card-header>
+    <mat-card-subtitle>Base layers</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-radio-group aria-label="Select a base layer" (change)="onChangeBaseLayer($event)">
+      @for (layer of layers; track layer; let i = $index) { @if (layer.get('base')) {
+      <mat-radio-button
+        type="checkbox"
+        [checked]="layer.getVisible()"
+        value="{{ i }}"
+        (change)="onChangeBaseLayer($event)"
+        >{{ layer.get('name') }}</mat-radio-button
+      >
+      } }
+    </mat-radio-group>
+  </mat-card-content>
+  }
 </mat-card>
+}
