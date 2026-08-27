@@ -34,3 +34,5 @@ jobs:
         run: npm test -- --no-watch --no-progress --coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v7
+      - name: Upload test results to Codecov
+        uses: codecov/test-results-action@v1
