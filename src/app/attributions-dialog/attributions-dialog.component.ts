@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-    selector: 'app-attributions-dialog',
-    templateUrl: './attributions-dialog.component.html',
-    styleUrls: ['./attributions-dialog.component.scss'],
-    standalone: false
+  selector: 'app-attributions-dialog',
+  templateUrl: './attributions-dialog.component.html',
+  styleUrls: ['./attributions-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AttributionsDialogComponent {
   constructor() {}

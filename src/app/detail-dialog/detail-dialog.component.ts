@@ -1,14 +1,15 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Feature from 'ol/Feature';
 import Geometry from 'ol/geom/Geometry';
 import { VocabService } from '../services/vocab.service';
 
 @Component({
-    selector: 'app-detail-dialog',
-    templateUrl: './detail-dialog.component.html',
-    styleUrls: ['./detail-dialog.component.scss'],
-    standalone: false
+  selector: 'app-detail-dialog',
+  templateUrl: './detail-dialog.component.html',
+  styleUrls: ['./detail-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DetailDialogComponent {
   constructor(

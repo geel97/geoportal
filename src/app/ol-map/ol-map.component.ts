@@ -1,5 +1,5 @@
 import { LayersService } from '../services/layers.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { View, Map } from 'ol';
 import { MatDialog } from '@angular/material/dialog';
 import { AttributionsDialogComponent } from '../attributions-dialog/attributions-dialog.component';
@@ -7,10 +7,11 @@ import { easeOut } from 'ol/easing';
 import Layer from 'ol/layer/Layer';
 
 @Component({
-    selector: 'app-ol-map',
-    templateUrl: './ol-map.component.html',
-    styleUrls: ['./ol-map.component.scss'],
-    standalone: false
+  selector: 'app-ol-map',
+  templateUrl: './ol-map.component.html',
+  styleUrls: ['./ol-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class OlMapComponent implements OnInit {
   map!: Map;

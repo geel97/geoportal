@@ -1,14 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import BaseLayer from 'ol/layer/Base';
 import { LayersService } from '../services/layers.service';
 
 @Component({
-    selector: 'app-layer-switcher',
-    templateUrl: './layer-switcher.component.html',
-    styleUrls: ['./layer-switcher.component.scss'],
-    standalone: false
+  selector: 'app-layer-switcher',
+  templateUrl: './layer-switcher.component.html',
+  styleUrls: ['./layer-switcher.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LayerSwitcherComponent {
   layers: BaseLayer[];

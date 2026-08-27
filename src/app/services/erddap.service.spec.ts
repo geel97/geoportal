@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ErddapService } from './erddap.service';
 
 describe('ErddapService', () => {
@@ -7,9 +7,9 @@ describe('ErddapService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [provideHttpClient(withInterceptorsFromDi())]
-});
+      imports: [],
+      providers: [provideHttpClient(withXhr(), withInterceptorsFromDi())],
+    });
     service = TestBed.inject(ErddapService);
   });
 

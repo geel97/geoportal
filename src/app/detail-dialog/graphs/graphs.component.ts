@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import type * as Highcharts from 'highcharts';
 import type { ChartConstructorType } from 'highcharts-angular';
 import { DataType, ErddapService, Parameter, Measurement } from 'src/app/services/erddap.service';
@@ -18,10 +18,11 @@ interface TimeSeries {
 }
 
 @Component({
-    selector: 'app-graphs',
-    templateUrl: './graphs.component.html',
-    styleUrls: ['./graphs.component.scss'],
-    standalone: false
+  selector: 'app-graphs',
+  templateUrl: './graphs.component.html',
+  styleUrls: ['./graphs.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class GraphsComponent implements OnInit {
   chartConstructor: ChartConstructorType = 'stockChart';
@@ -32,7 +33,7 @@ export class GraphsComponent implements OnInit {
   timeseriesLoaded!: Promise<boolean>;
   onChartInstance(chart: Highcharts.Chart) {
     this.chartRef = chart;
-  };
+  }
 
   allSelected(timeseries: TimeSeries) {
     return timeseries.series != null && timeseries.series.every(s => s.selected);

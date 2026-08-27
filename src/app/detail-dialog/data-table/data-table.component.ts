@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DataType, ErddapService, Measurement } from 'src/app/services/erddap.service';
 import { VocabService } from 'src/app/services/vocab.service';
 import { MatSort } from '@angular/material/sort';
@@ -9,10 +9,11 @@ import Geometry from 'ol/geom/Geometry';
 import { DateFunctions } from 'src/app/app.misc';
 
 @Component({
-    selector: 'app-data-table',
-    templateUrl: './data-table.component.html',
-    styleUrls: ['./data-table.component.scss'],
-    standalone: false
+  selector: 'app-data-table',
+  templateUrl: './data-table.component.html',
+  styleUrls: ['./data-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DataTableComponent implements OnInit {
   constructor(private erdappService: ErddapService, public vocabService: VocabService) {}
