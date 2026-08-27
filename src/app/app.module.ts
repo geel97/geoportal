@@ -57,9 +57,9 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
         FormsModule], providers: [CacheService, { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }, provideHttpClient(withInterceptorsFromDi()), provideHighcharts({
             instance: () => import('highcharts/esm/highstock').then(m => m.default),
             modules: () => [
-                import('highcharts/esm/modules/exporting'),
-                import('highcharts/esm/modules/export-data'),
-                import('highcharts/esm/modules/accessibility'),
+                import('highcharts/esm/modules/exporting').then(m => m.default),
+                import('highcharts/esm/modules/export-data').then(m => m.default),
+                import('highcharts/esm/modules/accessibility').then(m => m.default),
             ],
         })] })
 export class AppModule {}
