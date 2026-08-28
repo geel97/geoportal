@@ -14,7 +14,7 @@ import { StyleFunction } from 'ol/style/Style';
 import BaseLayer from 'ol/layer/Base';
 import XYZ from 'ol/source/XYZ';
 import LayerGroup from 'ol/layer/Group';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import Stroke from 'ol/style/Stroke';
@@ -22,6 +22,8 @@ import { Interaction, defaults, Select } from 'ol/interaction';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DateFunctions } from '../app.misc';
+import OlMap from 'ol/Map';
+
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +31,99 @@ import { DateFunctions } from '../app.misc';
 export class LayersService {
   layers: BaseLayer[] = [];
   interactions: Interaction[] = defaults().getArray();
+
+  readonly radarTimes$ = new BehaviorSubject<string[]>([]);
+  readonly radarTime$ = new BehaviorSubject<string | null>(null);
+
+  radarLayer!: LayerGroup;
+
+  isPlaying = false;
+  frameIntervalMs = 500;
+
+  private playInterval: any = null;
+  private preloadCache = new Map<string, TileLayer<TileWMS>>();
+  private readonly PRELOAD_WINDOW = 3;
+  private olMap: OlMap | null = null;
+
+  /** Called by OlMapComponent after the map is initialised so preloading can use the view. */
+  registerMap(olMap: OlMap): void {
+    this.olMap = olMap;
+  }
+
+  play(): void {
+    if (this.isPlaying) return;
+    this.isPlaying = true;
+    this.playInterval = setInterval(() => this.stepBy(1), this.frameIntervalMs);
+  }
+
+  pause(): void {
+    if (!this.isPlaying) return;
+    this.isPlaying = false;
+    clearInterval(this.playInterval);
+    this.playInterval = null;
+  }
+
+  stepBy(delta: number): void {
+    const times = this.radarTimes$.getValue();
+    if (times.length === 0) return;
+    const current = this.radarTime$.getValue();
+    const idx = current ? times.indexOf(current) : times.length - 1;
+    const next = (idx + delta + times.length) % times.length;
+    this.radarTime$.next(times[next]);
+    this.preloadAround(next);
+  }
+
+  private preloadAround(centerIdx: number): void {
+    const times = this.radarTimes$.getValue();
+    if (!this.olMap || times.length === 0) return;
+    const view = this.olMap.getView();
+    const resolution = view.getResolution();
+    if (resolution === undefined) return;
+
+    for (let delta = 1; delta <= this.PRELOAD_WINDOW; delta++) {
+      const idx = (centerIdx + delta) % times.length;
+      this.preloadFrame(times[idx]);
+    }
+  }
+
+  private preloadFrame(timestamp: string): void {
+    if (this.preloadCache.has(timestamp) || !this.olMap) return;
+    const view = this.olMap.getView();
+
+    const source = new TileWMS({
+      url: 'https://dsecho.ogs.it/thredds/wms/radar/NAdr-radar/aggregate.nc',
+      params: {
+        LAYERS: 'ewct:nsct-group',
+        TILED: true,
+        STYLES: 'colored_sized_arrows/x-Rainbow',
+        COLORSCALERANGE: '0, 0.4',
+        ABOVEMAXCOLOR: 'extend',
+        BELOWMINCOLOR: 'extend',
+        TIME: timestamp,
+      },
+    });
+
+    const layer = new TileLayer<TileWMS>({ source, opacity: 0 });
+    this.preloadCache.set(timestamp, layer);
+    this.olMap.addLayer(layer);
+
+    const tileGrid = source.getTileGrid() ?? source.getTileGridForProjection(view.getProjection());
+    const extent = view.calculateExtent(this.olMap.getSize());
+    const resolution = view.getResolution() ?? 1;
+    const zoom = tileGrid?.getZForResolution(resolution) ?? view.getZoom() ?? 0;
+
+    source.on('tileloadend', () => {
+      this.olMap?.removeLayer(layer);
+    });
+    source.on('tileloaderror', () => {
+      this.olMap?.removeLayer(layer);
+    });
+
+    // Trigger tile loading by loading tiles for the current extent
+    tileGrid?.forEachTileCoord(extent, Math.round(zoom), tileCoord => {
+      source.getTile(tileCoord[0], tileCoord[1], tileCoord[2], 1, view.getProjection());
+    });
+  }
 
   constructor(private http: HttpClient, private matDialog: MatDialog) {
     let osm = new TileLayer({
@@ -110,7 +205,8 @@ export class LayersService {
     });
     this.interactions.push(argoSelect);
 
-    let radarArrows = new TileLayer({
+    const radarArrows = new TileLayer({
+      preload: 1,
       source: new TileWMS({
         url: 'https://dsecho.ogs.it/thredds/wms/radar/NAdr-radar/aggregate.nc',
         params: {
@@ -123,25 +219,7 @@ export class LayersService {
         },
       }),
     });
-    fetch(radarArrows.getSource()!.getUrls()?.[0] + '?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0')
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (text) {
-        let result = new WMSCapabilities().read(text);
-        let times =
-          result.Capability.Layer.Layer[0].Layer[3].Layer[0].Dimension[0].values.split(
-            ','
-          ); /*.find(({Name}:any)=>Name === 'ewct:nsct-group')
-        /*.map((layer: any) => {
-          layer.filter((layer2: any)=> {
-
-          })
-        })    /*.filter((layer: any)=>{ return (typeof layer.Layer === undefined) })/*.Layer[3].Layer[0].Dimension*/
-        radar.set('times', times);
-        //console.log(times);
-      });
-    let radarPoints = new VectorLayer({
+    const radarPoints = new VectorLayer({
       source: new VectorSource({
         url: function (extent) {
           return (
@@ -166,7 +244,7 @@ export class LayersService {
         }),
       }),
     });
-    let radar = new LayerGroup({
+    const radar = new LayerGroup({
       layers: [radarArrows, radarPoints],
     });
     radar.set(
@@ -182,6 +260,34 @@ export class LayersService {
     radar.set('legendUnit', 'm/s');
     radar.set('name', 'Radar');
     this.layers.push(radar);
+    this.radarLayer = radar;
+
+    const capabilitiesUrl =
+      radarArrows.getSource()!.getUrls()?.[0] + '?REQUEST=GetCapabilities&SERVICE=WMS&VERSION=1.3.0';
+    this.http
+      .get(capabilitiesUrl, { responseType: 'text' })
+      .pipe(
+        map((text: string) => {
+          const result = new WMSCapabilities().read(text);
+          const times: string[] =
+            result.Capability.Layer.Layer[0].Layer[3].Layer[0].Dimension[0].values.split(',');
+          return times;
+        })
+      )
+      .subscribe({
+        next: (times: string[]) => {
+          radar.set('times', times);
+          this.radarTimes$.next(times);
+          this.radarTime$.next(times[times.length - 1]);
+        },
+        error: err => console.error('Failed to fetch radar capabilities', err),
+      });
+
+    this.radarTime$.subscribe((timestamp: string | null) => {
+      if (timestamp !== null) {
+        radarArrows.getSource()!.updateParams({ TIME: timestamp });
+      }
+    });
 
     let stations = new VectorLayer({
       source: new VectorSource({

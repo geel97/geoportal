@@ -23,10 +23,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
+import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CacheInterceptor } from './interceptors/cache.interceptor';
 import { CacheService } from './services/cache.service';
 import { DataTableComponent } from './detail-dialog/data-table/data-table.component';
+import { RadarTimeSliderComponent } from './radar-time-slider/radar-time-slider.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,7 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
     AttributionsDialogComponent,
     GraphsComponent,
     DataTableComponent,
+    RadarTimeSliderComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -50,6 +55,8 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
     MatIconModule,
     MatToolbarModule,
     MatRadioModule,
+    MatSliderModule,
+    MatSelectModule,
     HighchartsChartComponent,
     MatTabsModule,
     MatTableModule,
@@ -61,6 +68,7 @@ import { DataTableComponent } from './detail-dialog/data-table/data-table.compon
   ],
   providers: [
     CacheService,
+    DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideHighcharts({

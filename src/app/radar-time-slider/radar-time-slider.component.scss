@@ -1,0 +1,38 @@
+.radar-slider-card {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  min-width: 340px;
+  max-width: 90vw;
+
+  .mat-mdc-card-content {
+    padding: 8px 12px;
+  }
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.time-slider {
+  flex: 1;
+  min-width: 120px;
+}
+
+.timestamp-label {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: var(--mat-app-text-color, currentColor);
+  min-width: 130px;
+  text-align: center;
+}
+
+.speed-select {
+  width: 64px;
+  font-size: 0.8rem;
+}
