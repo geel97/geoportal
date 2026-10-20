@@ -1,0 +1,43 @@
+@if (isVisible && times.length > 0) {
+  <mat-card class="radar-slider-card">
+    <mat-card-content>
+      <div class="slider-controls">
+        <button mat-icon-button (click)="stepBack()" [disabled]="times.length === 0">
+          <mat-icon>skip_previous</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="togglePlayPause()" [disabled]="times.length === 0">
+          <mat-icon>{{ layersService.isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="stepForward()" [disabled]="times.length === 0">
+          <mat-icon>skip_next</mat-icon>
+        </button>
+
+        <mat-slider
+          class="time-slider"
+          [min]="0"
+          [max]="times.length - 1"
+          [step]="1"
+          [discrete]="true"
+          [disabled]="times.length === 0">
+          <input matSliderThumb [value]="selectedIndex" (valueChange)="onSliderChange($event)" />
+        </mat-slider>
+
+        <span class="timestamp-label">
+          {{ selectedTime | date : 'yyyy-MM-dd HH:mm' }} UTC
+        </span>
+
+        <mat-select
+          class="speed-select"
+          [value]="layersService.frameIntervalMs"
+          (selectionChange)="onSpeedChange($event.value)"
+          aria-label="Playback speed">
+          @for (opt of speedOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </div>
+    </mat-card-content>
+  </mat-card>
+}

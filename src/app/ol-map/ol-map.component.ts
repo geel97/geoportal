@@ -34,6 +34,7 @@ export class OlMapComponent implements OnInit {
         enableRotation: false,
       }),
     });
+    this.layersService.registerMap(this.map);
     this.map.on('pointermove', event => {
       var hit = event.map.hasFeatureAtPixel(event.pixel, {
         layerFilter: (layer: Layer<any>) => {
